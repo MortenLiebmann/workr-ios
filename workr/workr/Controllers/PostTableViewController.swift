@@ -11,17 +11,22 @@ import UIKit
 class PostTableViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    var posts: [Int] = [0,1,2,3,4,5]
+    var posts: [Post] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        appData.getUsers().done { (data) in
-            print(data)
-        }
-        
         tableView.delegate = self
         tableView.dataSource = self
+        
+        appData.getPosts().done { (data) in
+            self.posts = data
+            self.tableView.reloadData()
+            }.catch { (error) in
+                print(error)
+        }
+        
+       
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,8 +35,18 @@ class PostTableViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowDetail" {
-            print("HitIt")
+            guard let vc = segue.destination as? PostViewController else { return }
+            guard let data = getData(from: tableView.indexPathForSelectedRow) else { return }
+            vc.post = data
         }
+        if segue.identifier == "AddPost" {
+            guard let vc = segue.destination as? AddPostViewController else { return }
+        }
+    }
+    
+    func getData(from indexPath: IndexPath?) -> Post? {
+        guard let indexPath = indexPath else { return nil }
+        return posts[indexPath.row]
     }
 }
 
@@ -45,7 +60,10 @@ extension PostTableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostTableViewCell
+        
+        cell.post = posts[indexPath.row]
+        cell.initialize()
         
         return cell
     }

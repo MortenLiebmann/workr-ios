@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		450E5FFF70A15073ADD479E8 /* Pods_workr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F2D117555352F66811F029 /* Pods_workr.framework */; };
+		A6093B55212C066800618373 /* AssetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6093B54212C066800618373 /* AssetCollectionViewCell.swift */; };
+		A62001C9212AC8A600B9B6A4 /* AddPost.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A62001C8212AC8A600B9B6A4 /* AddPost.storyboard */; };
+		A62001CB212ACBC100B9B6A4 /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62001CA212ACBC100B9B6A4 /* AddPostViewController.swift */; };
 		A6395D73212566C3008A27D2 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A6395D72212566C3008A27D2 /* Podfile */; };
 		A6395D792126A3F9008A27D2 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D782126A3F9008A27D2 /* PostTableViewController.swift */; };
 		A6395D7B2126A65A008A27D2 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D7A2126A65A008A27D2 /* Protocols.swift */; };
@@ -20,6 +23,9 @@
 		A6395D892126B5CF008A27D2 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D882126B5CF008A27D2 /* Message.swift */; };
 		A6395D8B2126B849008A27D2 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D8A2126B849008A27D2 /* Rating.swift */; };
 		A6395D8D2126B91E008A27D2 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D8C2126B91E008A27D2 /* AppData.swift */; };
+		A6395D8F2126CCCD008A27D2 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D8E2126CCCD008A27D2 /* Tag.swift */; };
+		A6395D912126CD09008A27D2 /* TagReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D902126CD09008A27D2 /* TagReference.swift */; };
+		A6395D93212AAE87008A27D2 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D92212AAE87008A27D2 /* PostViewController.swift */; };
 		A6D1DDDE211C40C100381A4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D1DDDD211C40C100381A4D /* AppDelegate.swift */; };
 		A6D1DDE0211C40C100381A4D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D1DDDF211C40C100381A4D /* ViewController.swift */; };
 		A6D1DDE3211C40C100381A4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6D1DDE1211C40C100381A4D /* Main.storyboard */; };
@@ -47,6 +53,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A6093B54212C066800618373 /* AssetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCollectionViewCell.swift; sourceTree = "<group>"; };
+		A62001C8212AC8A600B9B6A4 /* AddPost.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddPost.storyboard; sourceTree = "<group>"; };
+		A62001CA212ACBC100B9B6A4 /* AddPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
 		A6395D72212566C3008A27D2 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Podfile; sourceTree = "<group>"; };
 		A6395D782126A3F9008A27D2 /* PostTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
 		A6395D7A2126A65A008A27D2 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
@@ -59,6 +68,9 @@
 		A6395D882126B5CF008A27D2 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		A6395D8A2126B849008A27D2 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		A6395D8C2126B91E008A27D2 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		A6395D8E2126CCCD008A27D2 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		A6395D902126CD09008A27D2 /* TagReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagReference.swift; sourceTree = "<group>"; };
+		A6395D92212AAE87008A27D2 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		A6D1DDDA211C40C100381A4D /* workr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = workr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6D1DDDD211C40C100381A4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A6D1DDDF211C40C100381A4D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -120,9 +132,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A62001C7212AC89000B9B6A4 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				A6D1DDE1211C40C100381A4D /* Main.storyboard */,
+				A6D1DDE6211C40C200381A4D /* LaunchScreen.storyboard */,
+				A62001C8212AC8A600B9B6A4 /* AddPost.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
 		A6395D7421269F7D008A27D2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A6395D7E2126A958008A27D2 /* PostTableViewCell.swift */,
+				A6093B54212C066800618373 /* AssetCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -131,7 +155,8 @@
 			isa = PBXGroup;
 			children = (
 				A6395D782126A3F9008A27D2 /* PostTableViewController.swift */,
-				A6395D7E2126A958008A27D2 /* PostTableViewCell.swift */,
+				A6395D92212AAE87008A27D2 /* PostViewController.swift */,
+				A62001CA212ACBC100B9B6A4 /* AddPostViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -145,6 +170,8 @@
 				A6395D862126B5C7008A27D2 /* Image.swift */,
 				A6395D882126B5CF008A27D2 /* Message.swift */,
 				A6395D8A2126B849008A27D2 /* Rating.swift */,
+				A6395D8E2126CCCD008A27D2 /* Tag.swift */,
+				A6395D902126CD09008A27D2 /* TagReference.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -176,13 +203,12 @@
 			isa = PBXGroup;
 			children = (
 				A6395D7721269FAA008A27D2 /* Models */,
+				A62001C7212AC89000B9B6A4 /* Storyboards */,
 				A6395D7521269F85008A27D2 /* Controllers */,
 				A6395D7421269F7D008A27D2 /* Views */,
 				A6D1DDDD211C40C100381A4D /* AppDelegate.swift */,
 				A6D1DDDF211C40C100381A4D /* ViewController.swift */,
-				A6D1DDE1211C40C100381A4D /* Main.storyboard */,
 				A6D1DDE4211C40C200381A4D /* Assets.xcassets */,
-				A6D1DDE6211C40C200381A4D /* LaunchScreen.storyboard */,
 				A6D1DDE9211C40C200381A4D /* Info.plist */,
 				A6395D7A2126A65A008A27D2 /* Protocols.swift */,
 				A6395D7C2126A6F9008A27D2 /* Extensions.swift */,
@@ -317,6 +343,7 @@
 			files = (
 				A6D1DDE8211C40C200381A4D /* LaunchScreen.storyboard in Resources */,
 				A6D1DDE5211C40C200381A4D /* Assets.xcassets in Resources */,
+				A62001C9212AC8A600B9B6A4 /* AddPost.storyboard in Resources */,
 				A6395D73212566C3008A27D2 /* Podfile in Resources */,
 				A6D1DDE3211C40C100381A4D /* Main.storyboard in Resources */,
 			);
@@ -386,14 +413,19 @@
 			files = (
 				A6395D8D2126B91E008A27D2 /* AppData.swift in Sources */,
 				A6395D8B2126B849008A27D2 /* Rating.swift in Sources */,
+				A62001CB212ACBC100B9B6A4 /* AddPostViewController.swift in Sources */,
+				A6093B55212C066800618373 /* AssetCollectionViewCell.swift in Sources */,
 				A6395D7D2126A6F9008A27D2 /* Extensions.swift in Sources */,
 				A6D1DDE0211C40C100381A4D /* ViewController.swift in Sources */,
 				A6395D792126A3F9008A27D2 /* PostTableViewController.swift in Sources */,
 				A6D1DDDE211C40C100381A4D /* AppDelegate.swift in Sources */,
 				A6395D852126B5B8008A27D2 /* Chat.swift in Sources */,
 				A6395D832126B5A5008A27D2 /* User.swift in Sources */,
+				A6395D93212AAE87008A27D2 /* PostViewController.swift in Sources */,
 				A6395D892126B5CF008A27D2 /* Message.swift in Sources */,
+				A6395D912126CD09008A27D2 /* TagReference.swift in Sources */,
 				A6395D7B2126A65A008A27D2 /* Protocols.swift in Sources */,
+				A6395D8F2126CCCD008A27D2 /* Tag.swift in Sources */,
 				A6395D812126B502008A27D2 /* Post.swift in Sources */,
 				A6395D7F2126A958008A27D2 /* PostTableViewCell.swift in Sources */,
 				A6395D872126B5C7008A27D2 /* Image.swift in Sources */,

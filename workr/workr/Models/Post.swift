@@ -10,10 +10,13 @@ import Foundation
 
 struct Post: Codable {
     var ID: UUID
+    var Title: String
     var CreatedByUserID: UUID
     var CreatedDate: Date
     var Description: String
     var Address: String?
     var JobEndDate: Date?
     var PostFlags: Int
+//    var Tags: [Tag]
+    var CreatedByUser: User?
 }

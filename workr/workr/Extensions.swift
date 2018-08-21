@@ -48,6 +48,16 @@ extension UIView {
     }
 }
 
+extension Date {
+    func toString(dateStyle: DateFormatter.Style? = .long, timeStyle: DateFormatter.Style? = .short) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = dateStyle!
+        formatter.timeStyle = timeStyle!
+        
+        return formatter.string(from: self)
+    }
+}
+
 @IBDesignable
 class BorderView: UIView { }
 
