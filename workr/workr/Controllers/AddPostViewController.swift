@@ -12,6 +12,13 @@ import Photos
 class AddPostViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    
+    @IBAction func addPostDidTap(_ sender: Any) {
+        addPost(title: titleTextField.text!, description: descriptionTextView.text!)
+    }
+    
     var images: [UIImage] = []
     var assets: [PHAsset] = []
 
@@ -77,6 +84,16 @@ class AddPostViewController: UIViewController {
             thumbnail = result!
         })
         return thumbnail
+    }
+}
+
+extension AddPostViewController {
+    func addPost(title: String, description: String) {
+        appData.createPost(title: title, description: description).done { (post) in
+            print(post)
+            }.catch { (error) in
+                print(error)
+        }
     }
 }
 

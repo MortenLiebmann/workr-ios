@@ -10,6 +10,7 @@ import UIKit
 
 class PostViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var tagCollectionView: UICollectionView!
     @IBOutlet weak var createdByLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -21,6 +22,7 @@ class PostViewController: UIViewController {
     
     var post: Post?
     var images: Int = 10
+    var tags = ["Tag1", "Looooooooooooong tag", "Tag 3", "Another long tag", "Even loooooooooooooooooonger tag"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,9 +34,11 @@ class PostViewController: UIViewController {
         guard let post = post else {return}
         collectionView.delegate = self
         collectionView.dataSource = self
-        
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         collectionView.isPagingEnabled = true
+        
+        tagCollectionView.delegate = self
+        tagCollectionView.dataSource = self
         
         let stringDate = post.CreatedDate.toString()
         
@@ -52,22 +56,41 @@ class PostViewController: UIViewController {
 
 extension PostViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images
+        if collectionView == self.collectionView {
+            return images
+        } else {
+            return tags.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostImageCell", for: indexPath)
+        if collectionView == self.collectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostImageCell", for: indexPath)
+            
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCell", for: indexPath) as! TagCollectionViewCell
+            cell.tabLabel.text = tags[indexPath.row]
+            
+            return cell
+        }
         
-        return cell
     }
 }
 
 extension PostViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.frame.size.height
-        let width = collectionView.frame.size.width - 40
-        
-        return CGSize(width: width, height: height)
+        if collectionView == self.collectionView {
+            let height = collectionView.frame.size.height
+            let width = collectionView.frame.size.width - 40
+            
+            return CGSize(width: width, height: height)
+        } else {
+            let tag = tags[indexPath.row]
+            let height = collectionView.frame.size.height
+            var width = tag.width(withConstraintedHeight: height, font: UIFont.systemFont(ofSize: 12)) + 10
+            return CGSize(width: width, height: height)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -75,6 +98,9 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if scrollView != self.collectionView {
+            return
+        }
         targetContentOffset.pointee = scrollView.contentOffset
         let pageWidth:Float = Float(self.view.bounds.width)
         let minSpace:Float = 10.0

@@ -11,6 +11,4 @@ import Foundation
 struct PostImage: Codable {
     var ID: UUID
     var PostID: UUID
-    var Path: String
-    var Description: String
 }

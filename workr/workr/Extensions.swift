@@ -15,6 +15,29 @@ extension UIViewController {
     }
 }
 
+extension String {
+//    func sizeOfString (string: String, constrainedToWidth width: Double) -> CGSize {
+//        let attributes = [NSAttributedStringKey.font:self,]
+//        let attString = NSAttributedString(string: string,attributes: attributes)
+//        let framesetter = CTFramesetterCreateWithAttributedString(attString)
+//        return CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRange(location: 0,length: 0), nil, CGSize(width: width, height: DBL_MAX), nil)
+//    }    
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+        
+        return ceil(boundingBox.height)
+    }
+    
+    func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+        
+        return ceil(boundingBox.width)
+    }
+}
+
 extension UIView {
     @IBInspectable var cornerRadius: CGFloat {
         get {
@@ -47,6 +70,14 @@ extension UIView {
         }
     }
 }
+
+//extension Formatter {
+//    static let iso8601: ISO8601DateFormatter = {
+//        let formatter = ISO8601DateFormatter()
+//        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+//        return formatter
+//    }()
+//}
 
 extension Date {
     func toString(dateStyle: DateFormatter.Style? = .long, timeStyle: DateFormatter.Style? = .short) -> String {

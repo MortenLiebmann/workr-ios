@@ -182,6 +182,9 @@
                                         <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="15"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="ADD POST"/>
+                                        <connections>
+                                            <action selector="addPostDidTap:" destination="zNk-KT-XrI" eventType="touchUpInside" id="vux-0q-mhq"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -197,6 +200,8 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="YbJ-qy-CR5" id="vfl-ou-SIq"/>
+                        <outlet property="descriptionTextView" destination="gnY-b7-Nul" id="ENn-Wg-PmR"/>
+                        <outlet property="titleTextField" destination="ERB-M7-wZa" id="cjW-lh-eOr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SeG-et-YNk" userLabel="First Responder" sceneMemberID="firstResponder"/>

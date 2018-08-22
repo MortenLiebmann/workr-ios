@@ -16,7 +16,7 @@ struct Post: Codable {
     var Description: String
     var Address: String?
     var JobEndDate: Date?
-    var PostFlags: Int
+//    var PostFlags: Int
 //    var Tags: [Tag]
     var CreatedByUser: User?
 }
