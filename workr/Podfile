@@ -7,6 +7,7 @@ target 'workr' do
 #    pod 'JWTDecode', '~> 2.1'
 #    pod 'AlamofireObjectMapper', '~> 5.0'
     pod 'PromiseKit/Alamofire', '~> 6.0'
+    pod 'AlamofireImage', '~> 3.3'
     #    pod 'PromiseKit', '~> 6.0'
 end
 

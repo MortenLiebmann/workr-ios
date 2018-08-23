@@ -13,20 +13,39 @@ class PostTableViewController: UIViewController {
     
     var posts: [Post] = []
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action:
+            #selector(self.handleRefresh(_:)),
+                                 for: UIControlEvents.valueChanged)
+        refreshControl.tintColor = UIColor.darkGray
+        
+        return refreshControl
+    }()
+    
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        loadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
-        
+        tableView.addSubview(refreshControl)
+       
+        loadData()
+       
+    }
+    
+    func loadData() {
         appData.getPosts().done { (data) in
             self.posts = data
             self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
             }.catch { (error) in
                 print(error)
         }
-        
-       
     }
 
     override func didReceiveMemoryWarning() {

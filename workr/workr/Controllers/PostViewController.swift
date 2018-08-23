@@ -57,20 +57,28 @@ class PostViewController: UIViewController {
 extension PostViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.collectionView {
-            return images
+            guard let post = post else { return 0 }
+            return post.PostImageIDs.count
         } else {
-            return tags.count
+            guard let post = post else { return 0 }
+            return post.PostTags.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.collectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostImageCell", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostImageCell", for: indexPath) as! PostImageCollectionViewCell
+            
+            guard let postId = post?.ID, let imageId = post?.PostImageIDs[indexPath.row] else { return cell }
+            
+            cell.postImageView.downloadImage(from: postId, imageId: imageId)
             
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCell", for: indexPath) as! TagCollectionViewCell
-            cell.tabLabel.text = tags[indexPath.row]
+            
+            guard let post = post else { return cell }
+            cell.tabLabel.text = post.PostTags[indexPath.row].Name
             
             return cell
         }
@@ -86,7 +94,8 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             
             return CGSize(width: width, height: height)
         } else {
-            let tag = tags[indexPath.row]
+            guard let post = post else { return CGSize(width: 0, height: 0) }
+            let tag = post.PostTags[indexPath.row].Name
             let height = collectionView.frame.size.height
             var width = tag.width(withConstraintedHeight: height, font: UIFont.systemFont(ofSize: 12)) + 10
             return CGSize(width: width, height: height)

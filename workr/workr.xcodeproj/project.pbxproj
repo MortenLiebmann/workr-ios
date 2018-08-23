@@ -28,6 +28,7 @@
 		A6395D93212AAE87008A27D2 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D92212AAE87008A27D2 /* PostViewController.swift */; };
 		A69A5531212C20F3000C3457 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69A5530212C20F3000C3457 /* TagCollectionViewCell.swift */; };
 		A69A5533212C2528000C3457 /* PostImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69A5532212C2528000C3457 /* PostImageCollectionViewCell.swift */; };
+		A69A5535212EA39A000C3457 /* TestImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69A5534212EA39A000C3457 /* TestImageViewController.swift */; };
 		A6D1DDDE211C40C100381A4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D1DDDD211C40C100381A4D /* AppDelegate.swift */; };
 		A6D1DDE0211C40C100381A4D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D1DDDF211C40C100381A4D /* ViewController.swift */; };
 		A6D1DDE3211C40C100381A4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6D1DDE1211C40C100381A4D /* Main.storyboard */; };
@@ -58,7 +59,7 @@
 		A6093B54212C066800618373 /* AssetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCollectionViewCell.swift; sourceTree = "<group>"; };
 		A62001C8212AC8A600B9B6A4 /* AddPost.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddPost.storyboard; sourceTree = "<group>"; };
 		A62001CA212ACBC100B9B6A4 /* AddPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
-		A6395D72212566C3008A27D2 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Podfile; sourceTree = "<group>"; };
+		A6395D72212566C3008A27D2 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A6395D782126A3F9008A27D2 /* PostTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
 		A6395D7A2126A65A008A27D2 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		A6395D7C2126A6F9008A27D2 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -75,6 +76,7 @@
 		A6395D92212AAE87008A27D2 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		A69A5530212C20F3000C3457 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		A69A5532212C2528000C3457 /* PostImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		A69A5534212EA39A000C3457 /* TestImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestImageViewController.swift; sourceTree = "<group>"; };
 		A6D1DDDA211C40C100381A4D /* workr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = workr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6D1DDDD211C40C100381A4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A6D1DDDF211C40C100381A4D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				A6395D782126A3F9008A27D2 /* PostTableViewController.swift */,
 				A6395D92212AAE87008A27D2 /* PostViewController.swift */,
 				A62001CA212ACBC100B9B6A4 /* AddPostViewController.swift */,
+				A69A5534212EA39A000C3457 /* TestImageViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -398,11 +401,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-workr/Pods-workr-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,6 +434,7 @@
 				A6395D852126B5B8008A27D2 /* Chat.swift in Sources */,
 				A6395D832126B5A5008A27D2 /* User.swift in Sources */,
 				A6395D93212AAE87008A27D2 /* PostViewController.swift in Sources */,
+				A69A5535212EA39A000C3457 /* TestImageViewController.swift in Sources */,
 				A6395D892126B5CF008A27D2 /* Message.swift in Sources */,
 				A69A5531212C20F3000C3457 /* TagCollectionViewCell.swift in Sources */,
 				A6395D912126CD09008A27D2 /* TagReference.swift in Sources */,

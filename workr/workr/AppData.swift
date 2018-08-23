@@ -9,16 +9,21 @@
 import Foundation
 import UIKit
 import Alamofire
+import AlamofireImage
 import PromiseKit
 
 open class AppData: NSObject {
-    open var imageCache: [String: Data] = [:]
+    open var imageCache: [String: UIImage] = [:]
     private var defaults = UserDefaults.standard
     private var baseUrl = "http://skurk.info:9877"
     private var testUrl = "http://192.168.1.88:9877"
     private var currentUserID = "d73720c4-4e34-4d81-b516-973915b68805"
     private var testing = true
     open let PhotoUrl = "http://ybphoto.s3-website.eu-central-1.amazonaws.com"
+    
+    enum AppDataError: Error {
+        case NotImplemented
+    }
     
     override init(){
         super.init()
@@ -28,10 +33,30 @@ open class AppData: NSObject {
         }
     }
     
+    public func getImageFrom(_ url: String) -> Promise<UIImage> {
+        return Promise<UIImage> { promise in
+            Alamofire.request("\(baseUrl)/\(url)", method: .get, parameters: nil, encoding: URLEncoding.default, headers: ["Content-Type": "image/png"]).responseImage { (response) in
+                if let image = response.result.value {
+                    promise.fulfill(image)
+                } else {
+                    promise.reject(AppDataError.NotImplemented)
+                }
+            }
+        }
+    }
+    
     public func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            completion(data, response, error)
-            }.resume()
+        do {
+            try URLSession.shared.dataTask(with: URLRequest(url: url, method: HTTPMethod(rawValue: "VIEW")!)) { data, response, error in
+                completion(data, response, error)
+                }.resume()
+        } catch var error {
+            print(error)
+        }
+    }
+    
+    func getUrl(from stub: String) -> URL? {
+        return URL(string: "\(baseUrl)/\(stub)")
     }
     
     func clearCache() {
@@ -75,5 +100,40 @@ extension AppData {
 }
 
 extension AppData {
+    func uploadImages(postId: UUID, images: [UIImage]) -> Promise<[PostImage]> {
+        return Promise<[PostImage]> {promise in
+            var returnData: [PostImage] = []
+            
+            for image in images {
+                if let data = UIImageJPEGRepresentation(image, 0.05) {
+                    Alamofire.upload(multipartFormData: { (multipart) in
+                        multipart.append(data, withName: "file", fileName: "tis", mimeType: "image/png")
+                    }, usingThreshold: 2500000, to: "\(baseUrl)/postimages/\(postId)", method: .put, headers: nil, encodingCompletion: { (result) in
+                        switch result {
+                        case .success(let upload, _, _):
+                            upload.responseJSON { response in
+                                let decoder = JSONDecoder()
+                                
+                                do {
+                                    let responseImage = try decoder.decode(PostImage.self, from: response.data!)
+                                    returnData.append(responseImage)
+                                    
+                                    if returnData.count >= images.count {
+                                        promise.fulfill(returnData)
+                                    }
+                                } catch {
+                                    
+                                }
+                            }
+                        case .failure(let error):
+                            promise.reject(error)
+                            
+                        }
+                    })
+                }
+            }
+        }
+      
+    }
 }
 

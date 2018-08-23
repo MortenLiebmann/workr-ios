@@ -17,6 +17,7 @@ struct Post: Codable {
     var Address: String?
     var JobEndDate: Date?
 //    var PostFlags: Int
-//    var Tags: [Tag]
+    var PostTags: [Tag]
+    var PostImageIDs: [UUID]
     var CreatedByUser: User?
 }

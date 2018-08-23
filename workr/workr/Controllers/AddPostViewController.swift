@@ -90,9 +90,23 @@ class AddPostViewController: UIViewController {
 extension AddPostViewController {
     func addPost(title: String, description: String) {
         appData.createPost(title: title, description: description).done { (post) in
-            print(post)
+            self.uploadImages(postId: post.ID)
             }.catch { (error) in
                 print(error)
+        }
+    }
+    
+    func uploadImages(postId: UUID) {
+        var imagesToUpload: [UIImage] = []
+        
+        guard let indexes = collectionView.indexPathsForSelectedItems else { return }
+        
+        for index in indexes {
+            imagesToUpload.append(getAssetHighRes(asset: getAsset(from: index)))
+        }
+        
+        appData.uploadImages(postId: postId, images: imagesToUpload).done { (images) in
+            print(images)
         }
     }
 }

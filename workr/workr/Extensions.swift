@@ -71,6 +71,37 @@ extension UIView {
     }
 }
 
+extension UIImageView {
+    var appData:AppData {
+        return (UIApplication.shared.delegate as! AppDelegate).appData
+    }
+    
+    func downloadImage(from postId: UUID, imageId: UUID) {
+        self.downloadImage(url: "postimages/\(postId)/\(imageId)", id: imageId) { (id, success) in
+            print(success)
+        }
+    }
+    
+    func downloadImage(url: String, id: UUID, completion: @escaping (UUID, Bool) -> Void) {
+        if let image = self.appData.imageCache[url] {
+            completion(id, true)
+            self.image = image
+            return
+        }
+        
+        self.appData.getImageFrom(url).done { (image) in
+            DispatchQueue.main.async() {
+                self.image = image
+                self.appData.imageCache[url] = image
+                completion(id, true)
+            }
+           
+            } .catch { (error) in
+                completion(id, false)
+        }
+    }
+}
+
 //extension Formatter {
 //    static let iso8601: ISO8601DateFormatter = {
 //        let formatter = ISO8601DateFormatter()

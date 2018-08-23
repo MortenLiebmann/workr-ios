@@ -26,12 +26,15 @@ class PostTableViewCell: UITableViewCell {
     //MARK: - Title
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var postImageView: UIImageView!
+    
+    @IBOutlet weak var noImagesView: UIView!
+    @IBOutlet weak var numberOfImages: UILabel!
+    
     var post: Post!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        
     }
     
     func initialize() {
@@ -42,6 +45,14 @@ class PostTableViewCell: UITableViewCell {
             locationView.isHidden = false
         } else {
             locationView.isHidden = true
+        }
+        
+        if post.PostImageIDs.count > 0 {
+            postImageView.downloadImage(from: post.ID, imageId: post.PostImageIDs[0])
+            numberOfImages.text = String(post.PostImageIDs.count)
+            noImagesView.isHidden = true
+        } else {
+            noImagesView.isHidden = false
         }
         
         if let endDate = post.JobEndDate {
