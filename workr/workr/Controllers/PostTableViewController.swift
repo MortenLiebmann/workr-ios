@@ -12,6 +12,11 @@ class PostTableViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var posts: [Post] = []
+    var currentUser: User!
+    
+    @IBAction func unwindToMain(_ segue: UIStoryboardSegue) {
+        loadData()
+    }
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -40,11 +45,15 @@ class PostTableViewController: UIViewController {
     
     func loadData() {
         appData.getPosts().done { (data) in
-            self.posts = data
+            self.posts = data.sorted{$0.CreatedDate > $1.CreatedDate}
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()
             }.catch { (error) in
                 print(error)
+        }
+        
+        appData.getCurrentUser().done { (user) in
+            self.currentUser = user
         }
     }
 
@@ -60,6 +69,12 @@ class PostTableViewController: UIViewController {
         }
         if segue.identifier == "AddPost" {
             guard let vc = segue.destination as? AddPostViewController else { return }
+        }
+        if segue.identifier == "ShowProfile" {
+            guard let nav = segue.destination as? UINavigationController else { return }
+            guard let vc = nav.childViewControllers[0] as? ProfileViewController else { return }
+            guard let currentUser = currentUser else { return }
+            vc.user = currentUser
         }
     }
     

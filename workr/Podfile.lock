@@ -6,22 +6,34 @@ PODS:
     - Alamofire (~> 4.0)
     - PromiseKit/CorePromise
   - PromiseKit/CorePromise (6.2.8)
+  - SnapKit (4.0.0)
+  - SwiftyJSON (4.1.0)
+  - WSTagsField (3.1.0)
 
 DEPENDENCIES:
   - AlamofireImage (~> 3.3)
   - PromiseKit/Alamofire (~> 6.0)
+  - SnapKit (~> 4.0.0)
+  - SwiftyJSON (~> 4.0)
+  - WSTagsField
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - AlamofireImage
     - PromiseKit
+    - SnapKit
+    - SwiftyJSON
+    - WSTagsField
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   AlamofireImage: 3b35b586853abaf94ca1250f4e94cff3c21a4c0d
   PromiseKit: 6788ce1a0ed5448b83d4aaf56b9fc49fb7647d32
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  WSTagsField: 53055749c03769b2b297f2a629ba23a26931e3ff
 
-PODFILE CHECKSUM: 8c67751a11a36b0d8571ad002c756e5de90f8630
+PODFILE CHECKSUM: 0141eacebf79a7bcd00f1adbd992a64aeefbae0c
 
 COCOAPODS: 1.5.2

@@ -9,6 +9,12 @@
 import UIKit
 
 class PostViewController: UIViewController {
+    @IBOutlet weak var offerButton: UIButton!
+    @IBOutlet weak var contactButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var bidsButton: UIButton!
+    @IBOutlet weak var bidStackView: UIStackView!
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tagCollectionView: UICollectionView!
     @IBOutlet weak var createdByLabel: UILabel!
@@ -32,25 +38,48 @@ class PostViewController: UIViewController {
     
     func initialize() {
         guard let post = post else {return}
+        tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: "TagCell")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         collectionView.isPagingEnabled = true
+        collectionView.isHidden = post.PostImageIDs.count == 0
+        
+        editButton.isHidden = post.CreatedByUser?.ID != appData.currentUser.ID
+        contactButton.isHidden = post.CreatedByUser?.ID == appData.currentUser.ID
+        offerButton.isHidden = post.CreatedByUser?.ID == appData.currentUser.ID //OR if post has any offer from you
+        bidStackView.isHidden = post.PostBids.count == 0
+        
+        bidsButton.setTitle("\(post.PostBids.count) bids", for: .normal)
         
         tagCollectionView.delegate = self
         tagCollectionView.dataSource = self
+        tagCollectionView.isHidden = post.PostTags.count == 0
+        tagCollectionView.reloadData()
         
         let stringDate = post.CreatedDate.toString()
         
         titleLabel.text = post.Title
         createdByLabel.text = "\(post.CreatedByUser?.Name ?? ""), \(stringDate)"
         descriptionLabel.text = post.Description
-//        addressLabel.text = post.Address
+        addressLabel.isHidden = (post.Address?.isEmptyOrWhitespace())!
+        addressLabel.text = post.Address
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PlaceOffer" {
+            guard let vc = segue.destination as? PlaceBidViewController else { return }
+            vc.post = self.post
+        }
+        if segue.identifier == "ViewBids" {
+            guard let vc = segue.destination as? BidsViewController else { return }
+            vc.bids = (self.post?.PostBids)!
+        }
     }
 }
 
@@ -78,7 +107,7 @@ extension PostViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCell", for: indexPath) as! TagCollectionViewCell
             
             guard let post = post else { return cell }
-            cell.tabLabel.text = post.PostTags[indexPath.row].Name
+            cell.tagLabel.text = post.PostTags[indexPath.row].Name
             
             return cell
         }
@@ -97,7 +126,7 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
             guard let post = post else { return CGSize(width: 0, height: 0) }
             let tag = post.PostTags[indexPath.row].Name
             let height = collectionView.frame.size.height
-            var width = tag.width(withConstraintedHeight: height, font: UIFont.systemFont(ofSize: 12)) + 10
+            var width = (tag?.width(withConstraintedHeight: height, font: UIFont.systemFont(ofSize: 12)))! + 16
             return CGSize(width: width, height: height)
         }
     }

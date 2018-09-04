@@ -16,5 +16,6 @@ struct User: Codable {
     var Business: String?
     var Phone: String?
     var Company: String?
-    var AccountFlags: Int
+    var Flags: Int?
+    var CreatedDate: Date?
 }

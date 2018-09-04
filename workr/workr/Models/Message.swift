@@ -15,5 +15,5 @@ struct Message: Codable {
     var CreatedDate: Date
     var UpdatedDate: Date?
     var Text: String
-    var MessageFlags: Int
+    var Flags: Int
 }

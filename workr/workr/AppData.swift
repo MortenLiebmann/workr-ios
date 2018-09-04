@@ -11,19 +11,43 @@ import UIKit
 import Alamofire
 import AlamofireImage
 import PromiseKit
+import SwiftyJSON
 
 open class AppData: NSObject {
+    
+    struct CustomError: AppDataError {
+        
+        var title: String?
+        var code: Int
+        var errorDescription: String? { return _description }
+        var failureReason: String? { return _description }
+        
+        private var _description: String
+        
+        init(title: String?, description: String, code: Int) {
+            self.title = title ?? "Error"
+            self._description = description
+            self.code = code
+        }
+    }
+    
+    private var credentials: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "Credentials")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "Credentials")
+        }
+    }
+    
     open var imageCache: [String: UIImage] = [:]
     private var defaults = UserDefaults.standard
     private var baseUrl = "http://skurk.info:9877"
     private var testUrl = "http://192.168.1.88:9877"
-    private var currentUserID = "d73720c4-4e34-4d81-b516-973915b68805"
+    private var currentUserID = "5b6f0164-9798-407d-a38f-e4640bdbd8de"
+    var currentUser: User!
     private var testing = true
     open let PhotoUrl = "http://ybphoto.s3-website.eu-central-1.amazonaws.com"
-    
-    enum AppDataError: Error {
-        case NotImplemented
-    }
     
     override init(){
         super.init()
@@ -33,13 +57,21 @@ open class AppData: NSObject {
         }
     }
     
+    var decoder: JSONDecoder {
+        get {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            return decoder
+        }
+    }
+    
     public func getImageFrom(_ url: String) -> Promise<UIImage> {
         return Promise<UIImage> { promise in
             Alamofire.request("\(baseUrl)/\(url)", method: .get, parameters: nil, encoding: URLEncoding.default, headers: ["Content-Type": "image/png"]).responseImage { (response) in
                 if let image = response.result.value {
                     promise.fulfill(image)
                 } else {
-                    promise.reject(AppDataError.NotImplemented)
+                    promise.reject(CustomError(title: nil, description: "No image", code: 400))
                 }
             }
         }
@@ -55,6 +87,16 @@ open class AppData: NSObject {
         }
     }
     
+    func getFirstUser() -> Promise<User?> {
+        return firstly {
+            Alamofire.request("\(baseUrl)/users").responseDecodable(Array<User>.self, queue: .main, decoder: decoder)
+            }.map({ (users) -> User? in
+                guard let user = users.first else { return nil }
+                self.currentUser = user
+                return user
+            })
+    }
+    
     func getUrl(from stub: String) -> URL? {
         return URL(string: "\(baseUrl)/\(stub)")
     }
@@ -64,10 +106,10 @@ open class AppData: NSObject {
     }
     
     func generateHeader() -> HTTPHeaders? {
-        guard let token = self.defaults.string(forKey: "token") else { return nil}
+        guard let credentials = self.credentials else { return nil}
         
         return [
-            "Authorization": "Bearer \(token)"
+            "Authorization": "Basic \(credentials)"
         ]
     }
 }
@@ -80,22 +122,140 @@ extension AppData {
         return Alamofire.request("\(baseUrl)/posts", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseDecodable(Array<Post>.self, queue: .main, decoder: decoder)
     }
     
-    func createPost(title: String, description: String) -> Promise<Post>{
+    func createPost(title: String, description: String, tags: [[String: String]], address: String?) -> Promise<Post> {
+        
         let parameters = [
             "Title": title,
             "Description": description,
-            "CreatedByUserID": currentUserID,
-            "CreatedDate": ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: .withFullTime)
+            "CreatedByUserID": currentUser.ID.uuidString,
+            "PostTags": tags,
+            "CreatedDate": ISO8601DateFormatter.string(from: Date(), timeZone: .current, formatOptions: .withFullTime),
+            "Address": address ?? ""
             ] as [String : Any]
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        return Alamofire.request("\(baseUrl)/posts", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseDecodable(Post.self, queue: DispatchQueue.main, decoder: decoder)
+        return Alamofire.request("\(baseUrl)/posts", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(Post.self, queue: DispatchQueue.main, decoder: decoder)
     }
 }
 
 extension AppData {
+    func getCurrentUser() -> Promise<User> {
+        return Promise<User> {seal in
+            if let user = currentUser {
+                seal.fulfill(user)
+            } else {
+                getFirstUser().done({ (user) in
+                    if let user = user {
+                        seal.fulfill(user)
+                    } else {
+                         seal.reject(CustomError(title: nil, description: "No users", code: 400))
+                    }
+                })
+            }
+        }
+    }
+    
     func getUsers() -> Promise<[User]> {
         return Alamofire.request("\(baseUrl)/users", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseDecodable(Array<User>.self)
+    }
+    
+    func login() -> Promise<User> {
+        return Promise<User> {seal in
+            if let credentials = self.credentials {
+                self.login(with: credentials).done({ (user) in
+                    seal.fulfill(user)
+                })
+            } else {
+                seal.reject(CustomError(title: nil, description: "Not logged in", code: 1000))
+            }
+        }
+    }
+    
+    func logout() -> Promise<Bool> {
+        return Promise<Bool> {seal in
+            self.credentials = nil
+            seal.fulfill(true)
+        }
+    }
+    
+    func login(username: String, password: String) -> Promise<User> {
+        let cred = "\(username):\(password)".data(using: String.Encoding.utf8)?.base64EncodedString()
+        
+        return login(with: cred!)
+    }
+    
+    private func login(with credentials: String) -> Promise<User> {
+        let headers = [
+            "Authorization": "Basic \(credentials)"
+            
+        ]
+        return Promise<User> {seal in
+            firstly{
+                Alamofire.request("\(baseUrl)/auth", method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers).responseData()
+                }.get({ (data, response) in
+                    if data.count == 0 {
+                        seal.reject(CustomError(title: "Error", description: "Incorrect username or password", code: 500))
+                        return
+                    }
+                    
+                    let json = try JSON.init(data: data)
+                    if response.response?.statusCode == 200 {
+                        let user = try self.decoder.decode(User.self, from: json.rawData())
+                        self.currentUser = user
+                        self.credentials = credentials
+                        seal.fulfill(user)
+                    } else if let message = json["ErrorMessage"].string {
+                        seal.reject(CustomError(title: "Server error", description: message, code: 500))
+                    }
+                }).catch({ (error) in
+                    seal.reject(error)
+                })
+        }
+    }
+    
+    func registerUser(name: String, email: String, password: String) -> Promise<User> {
+        let parameters = [
+            "Name": name,
+            "Email": email
+        ]
+        
+        let header = [
+            "Password": password
+        ]
+        
+        return Promise<User> {seal in
+            firstly{
+                Alamofire.request("\(baseUrl)/register", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseData()
+                }.get({ (data, response) in
+                    let json = try JSON.init(data: data)
+                    if response.response?.statusCode == 200 {
+                        seal.fulfill(try self.decoder.decode(User.self, from: json.rawData()))
+                    } else if let message = json["ErrorMessage"].string {
+                        seal.reject(CustomError(title: "Server error", description: message, code: 500))
+                    }
+                }).catch({ (error) in
+                    seal.reject(error)
+                })
+        }
+    }
+}
+
+extension AppData {
+    func getTags() -> Promise<[Tag]> {
+        return Alamofire.request("\(baseUrl)/posttags", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseDecodable(Array<Tag>.self, queue: .main, decoder: decoder)
+    }
+}
+
+extension AppData {
+    func insertPostBid(text: String, price: Double, postId: UUID) -> Promise<Bid> {
+        let parameters = [
+            "Text": text,
+            "CreatedByUserID": currentUser.ID.uuidString,
+            "PostID": postId.uuidString,
+            "Price": price.toString()
+        ]
+        
+        return Alamofire.request("\(baseUrl)/postbids", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(Bid.self, queue: .main, decoder: decoder)
     }
 }
 
@@ -108,7 +268,7 @@ extension AppData {
                 if let data = UIImageJPEGRepresentation(image, 0.05) {
                     Alamofire.upload(multipartFormData: { (multipart) in
                         multipart.append(data, withName: "file", fileName: "tis", mimeType: "image/png")
-                    }, usingThreshold: 2500000, to: "\(baseUrl)/postimages/\(postId)", method: .put, headers: nil, encodingCompletion: { (result) in
+                    }, usingThreshold: 2500000, to: "\(baseUrl)/postimages/\(postId)", method: .put, headers: generateHeader(), encodingCompletion: { (result) in
                         switch result {
                         case .success(let upload, _, _):
                             upload.responseJSON { response in

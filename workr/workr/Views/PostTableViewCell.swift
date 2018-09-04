@@ -41,11 +41,7 @@ class PostTableViewCell: UITableViewCell {
         locationLabel.text = post.Address
         titleLabel.text = post.Title
         
-        if post.Address != nil{
-            locationView.isHidden = false
-        } else {
-            locationView.isHidden = true
-        }
+        locationView.isHidden = (post.Address?.isEmptyOrWhitespace())!
         
         if post.PostImageIDs.count > 0 {
             postImageView.downloadImage(from: post.ID, imageId: post.PostImageIDs[0])
@@ -56,7 +52,7 @@ class PostTableViewCell: UITableViewCell {
         }
         
         if let endDate = post.JobEndDate {
-            //            endDateLabel.text = String(endDate)
+            endDateLabel.text = endDate.toString()
             endDateView.isHidden = false
         } else {
             endDateLabel.text = nil

@@ -15,13 +15,22 @@ extension UIViewController {
     }
 }
 
+extension Double {
+    func toString() -> String {
+        return String(self)
+    }
+}
+
 extension String {
-//    func sizeOfString (string: String, constrainedToWidth width: Double) -> CGSize {
-//        let attributes = [NSAttributedStringKey.font:self,]
-//        let attString = NSAttributedString(string: string,attributes: attributes)
-//        let framesetter = CTFramesetterCreateWithAttributedString(attString)
-//        return CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRange(location: 0,length: 0), nil, CGSize(width: width, height: DBL_MAX), nil)
-//    }    
+    func isEmptyOrWhitespace() -> Bool {
+        
+        if(self.isEmpty) {
+            return true
+        }
+        
+        return (self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+    }
+    
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         
@@ -71,6 +80,12 @@ extension UIView {
     }
 }
 
+extension Encodable {
+    var dictionary: [String: Any] {
+        return (try? JSONSerialization.jsonObject(with: JSONEncoder().encode(self))) as? [String: Any] ?? [:]
+    }
+}
+
 extension UIImageView {
     var appData:AppData {
         return (UIApplication.shared.delegate as! AppDelegate).appData
@@ -95,7 +110,7 @@ extension UIImageView {
                 self.appData.imageCache[url] = image
                 completion(id, true)
             }
-           
+            
             } .catch { (error) in
                 completion(id, false)
         }

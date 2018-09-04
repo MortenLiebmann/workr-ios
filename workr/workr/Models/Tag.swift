@@ -8,8 +8,13 @@
 
 import Foundation
 
-struct Tag: Codable {
-    var ID: UUID
+struct jsonTag : Codable{
     var Name: String
-    var TagFlags: Int
+}
+
+struct Tag: Codable {
+    var ID: UUID?
+    var Name: String?
+    var Flags: Int?
+    var CreatedDate: Date
 }

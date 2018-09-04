@@ -18,6 +18,7 @@ struct Post: Codable {
     var JobEndDate: Date?
 //    var PostFlags: Int
     var PostTags: [Tag]
+    var PostBids: [Bid]
     var PostImageIDs: [UUID]
     var CreatedByUser: User?
 }

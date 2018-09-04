@@ -8,6 +8,9 @@ target 'workr' do
 #    pod 'AlamofireObjectMapper', '~> 5.0'
     pod 'PromiseKit/Alamofire', '~> 6.0'
     pod 'AlamofireImage', '~> 3.3'
+    pod 'WSTagsField'
+    pod 'SnapKit', '~> 4.0.0'
+    pod 'SwiftyJSON', '~> 4.0'
     #    pod 'PromiseKit', '~> 6.0'
 end
 

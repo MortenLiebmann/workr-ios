@@ -8,9 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		450E5FFF70A15073ADD479E8 /* Pods_workr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F2D117555352F66811F029 /* Pods_workr.framework */; };
+		A605F3AE2137F707004ACB32 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A605F3AD2137F707004ACB32 /* Profile.storyboard */; };
 		A6093B55212C066800618373 /* AssetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6093B54212C066800618373 /* AssetCollectionViewCell.swift */; };
+		A61A6A8D213813DD00A1AD1F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A6A8C213813DD00A1AD1F /* RegisterViewController.swift */; };
+		A61A6A8F2138151C00A1AD1F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A6A8E2138151C00A1AD1F /* ProfileViewController.swift */; };
 		A62001C9212AC8A600B9B6A4 /* AddPost.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A62001C8212AC8A600B9B6A4 /* AddPost.storyboard */; };
 		A62001CB212ACBC100B9B6A4 /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62001CA212ACBC100B9B6A4 /* AddPostViewController.swift */; };
+		A62B1EBA2133EEFA00FBE81F /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A62B1EB92133EEFA00FBE81F /* Chat.storyboard */; };
 		A6395D73212566C3008A27D2 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A6395D72212566C3008A27D2 /* Podfile */; };
 		A6395D792126A3F9008A27D2 /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D782126A3F9008A27D2 /* PostTableViewController.swift */; };
 		A6395D7B2126A65A008A27D2 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D7A2126A65A008A27D2 /* Protocols.swift */; };
@@ -26,9 +30,17 @@
 		A6395D8F2126CCCD008A27D2 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D8E2126CCCD008A27D2 /* Tag.swift */; };
 		A6395D912126CD09008A27D2 /* TagReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D902126CD09008A27D2 /* TagReference.swift */; };
 		A6395D93212AAE87008A27D2 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D92212AAE87008A27D2 /* PostViewController.swift */; };
+		A68A1894213EA0F70010AED7 /* BidsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68A1893213EA0F70010AED7 /* BidsViewController.swift */; };
+		A68A1896213EA23A0010AED7 /* BidTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68A1895213EA23A0010AED7 /* BidTableViewCell.swift */; };
 		A69A5531212C20F3000C3457 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69A5530212C20F3000C3457 /* TagCollectionViewCell.swift */; };
 		A69A5533212C2528000C3457 /* PostImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69A5532212C2528000C3457 /* PostImageCollectionViewCell.swift */; };
 		A69A5535212EA39A000C3457 /* TestImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69A5534212EA39A000C3457 /* TestImageViewController.swift */; };
+		A69EC9AE2137DC1000C59023 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A69EC9AD2137DC1000C59023 /* Login.storyboard */; };
+		A69EC9B02137E76800C59023 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69EC9AF2137E76800C59023 /* LoginViewController.swift */; };
+		A6A4DEE6213405BB00BB3AB6 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A4DEE5213405BB00BB3AB6 /* ChatViewController.swift */; };
+		A6A4DEE8213405E800BB3AB6 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A4DEE7213405E800BB3AB6 /* ChatTableViewCell.swift */; };
+		A6BA5936213E8BC60003A317 /* PlaceBidViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BA5935213E8BC60003A317 /* PlaceBidViewController.swift */; };
+		A6BA5938213E95AF0003A317 /* Bid.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BA5937213E95AF0003A317 /* Bid.swift */; };
 		A6D1DDDE211C40C100381A4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D1DDDD211C40C100381A4D /* AppDelegate.swift */; };
 		A6D1DDE0211C40C100381A4D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D1DDDF211C40C100381A4D /* ViewController.swift */; };
 		A6D1DDE3211C40C100381A4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6D1DDE1211C40C100381A4D /* Main.storyboard */; };
@@ -56,9 +68,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A605F3AD2137F707004ACB32 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		A6093B54212C066800618373 /* AssetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCollectionViewCell.swift; sourceTree = "<group>"; };
+		A61A6A8C213813DD00A1AD1F /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		A61A6A8E2138151C00A1AD1F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A62001C8212AC8A600B9B6A4 /* AddPost.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddPost.storyboard; sourceTree = "<group>"; };
 		A62001CA212ACBC100B9B6A4 /* AddPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
+		A62B1EB92133EEFA00FBE81F /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		A6395D72212566C3008A27D2 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A6395D782126A3F9008A27D2 /* PostTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
 		A6395D7A2126A65A008A27D2 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
@@ -74,9 +90,17 @@
 		A6395D8E2126CCCD008A27D2 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		A6395D902126CD09008A27D2 /* TagReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagReference.swift; sourceTree = "<group>"; };
 		A6395D92212AAE87008A27D2 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		A68A1893213EA0F70010AED7 /* BidsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidsViewController.swift; sourceTree = "<group>"; };
+		A68A1895213EA23A0010AED7 /* BidTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidTableViewCell.swift; sourceTree = "<group>"; };
 		A69A5530212C20F3000C3457 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		A69A5532212C2528000C3457 /* PostImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		A69A5534212EA39A000C3457 /* TestImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestImageViewController.swift; sourceTree = "<group>"; };
+		A69EC9AD2137DC1000C59023 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		A69EC9AF2137E76800C59023 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A6A4DEE5213405BB00BB3AB6 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		A6A4DEE7213405E800BB3AB6 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		A6BA5935213E8BC60003A317 /* PlaceBidViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceBidViewController.swift; sourceTree = "<group>"; };
+		A6BA5937213E95AF0003A317 /* Bid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bid.swift; sourceTree = "<group>"; };
 		A6D1DDDA211C40C100381A4D /* workr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = workr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6D1DDDD211C40C100381A4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A6D1DDDF211C40C100381A4D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +168,9 @@
 				A6D1DDE1211C40C100381A4D /* Main.storyboard */,
 				A6D1DDE6211C40C200381A4D /* LaunchScreen.storyboard */,
 				A62001C8212AC8A600B9B6A4 /* AddPost.storyboard */,
+				A62B1EB92133EEFA00FBE81F /* Chat.storyboard */,
+				A69EC9AD2137DC1000C59023 /* Login.storyboard */,
+				A605F3AD2137F707004ACB32 /* Profile.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -155,6 +182,8 @@
 				A6093B54212C066800618373 /* AssetCollectionViewCell.swift */,
 				A69A5530212C20F3000C3457 /* TagCollectionViewCell.swift */,
 				A69A5532212C2528000C3457 /* PostImageCollectionViewCell.swift */,
+				A6A4DEE7213405E800BB3AB6 /* ChatTableViewCell.swift */,
+				A68A1895213EA23A0010AED7 /* BidTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -166,6 +195,12 @@
 				A6395D92212AAE87008A27D2 /* PostViewController.swift */,
 				A62001CA212ACBC100B9B6A4 /* AddPostViewController.swift */,
 				A69A5534212EA39A000C3457 /* TestImageViewController.swift */,
+				A6A4DEE5213405BB00BB3AB6 /* ChatViewController.swift */,
+				A69EC9AF2137E76800C59023 /* LoginViewController.swift */,
+				A61A6A8C213813DD00A1AD1F /* RegisterViewController.swift */,
+				A61A6A8E2138151C00A1AD1F /* ProfileViewController.swift */,
+				A6BA5935213E8BC60003A317 /* PlaceBidViewController.swift */,
+				A68A1893213EA0F70010AED7 /* BidsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -181,6 +216,7 @@
 				A6395D8A2126B849008A27D2 /* Rating.swift */,
 				A6395D8E2126CCCD008A27D2 /* Tag.swift */,
 				A6395D902126CD09008A27D2 /* TagReference.swift */,
+				A6BA5937213E95AF0003A317 /* Bid.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -350,7 +386,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A62B1EBA2133EEFA00FBE81F /* Chat.storyboard in Resources */,
 				A6D1DDE8211C40C200381A4D /* LaunchScreen.storyboard in Resources */,
+				A605F3AE2137F707004ACB32 /* Profile.storyboard in Resources */,
+				A69EC9AE2137DC1000C59023 /* Login.storyboard in Resources */,
 				A6D1DDE5211C40C200381A4D /* Assets.xcassets in Resources */,
 				A62001C9212AC8A600B9B6A4 /* AddPost.storyboard in Resources */,
 				A6395D73212566C3008A27D2 /* Podfile in Resources */,
@@ -403,12 +442,18 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/WSTagsField/WSTagsField.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WSTagsField.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -423,24 +468,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				A69A5533212C2528000C3457 /* PostImageCollectionViewCell.swift in Sources */,
+				A68A1894213EA0F70010AED7 /* BidsViewController.swift in Sources */,
 				A6395D8D2126B91E008A27D2 /* AppData.swift in Sources */,
+				A6BA5936213E8BC60003A317 /* PlaceBidViewController.swift in Sources */,
+				A6A4DEE6213405BB00BB3AB6 /* ChatViewController.swift in Sources */,
 				A6395D8B2126B849008A27D2 /* Rating.swift in Sources */,
 				A62001CB212ACBC100B9B6A4 /* AddPostViewController.swift in Sources */,
 				A6093B55212C066800618373 /* AssetCollectionViewCell.swift in Sources */,
 				A6395D7D2126A6F9008A27D2 /* Extensions.swift in Sources */,
 				A6D1DDE0211C40C100381A4D /* ViewController.swift in Sources */,
+				A6BA5938213E95AF0003A317 /* Bid.swift in Sources */,
+				A6A4DEE8213405E800BB3AB6 /* ChatTableViewCell.swift in Sources */,
 				A6395D792126A3F9008A27D2 /* PostTableViewController.swift in Sources */,
+				A61A6A8F2138151C00A1AD1F /* ProfileViewController.swift in Sources */,
 				A6D1DDDE211C40C100381A4D /* AppDelegate.swift in Sources */,
 				A6395D852126B5B8008A27D2 /* Chat.swift in Sources */,
+				A69EC9B02137E76800C59023 /* LoginViewController.swift in Sources */,
 				A6395D832126B5A5008A27D2 /* User.swift in Sources */,
 				A6395D93212AAE87008A27D2 /* PostViewController.swift in Sources */,
 				A69A5535212EA39A000C3457 /* TestImageViewController.swift in Sources */,
+				A61A6A8D213813DD00A1AD1F /* RegisterViewController.swift in Sources */,
 				A6395D892126B5CF008A27D2 /* Message.swift in Sources */,
 				A69A5531212C20F3000C3457 /* TagCollectionViewCell.swift in Sources */,
 				A6395D912126CD09008A27D2 /* TagReference.swift in Sources */,
 				A6395D7B2126A65A008A27D2 /* Protocols.swift in Sources */,
 				A6395D8F2126CCCD008A27D2 /* Tag.swift in Sources */,
 				A6395D812126B502008A27D2 /* Post.swift in Sources */,
+				A68A1896213EA23A0010AED7 /* BidTableViewCell.swift in Sources */,
 				A6395D7F2126A958008A27D2 /* PostTableViewCell.swift in Sources */,
 				A6395D872126B5C7008A27D2 /* Image.swift in Sources */,
 			);
