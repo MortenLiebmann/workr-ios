@@ -9,9 +9,9 @@
 import Foundation
 
 struct Chat: Codable {
-    var ID: UUID
+    var ID: UUID?
     var PostID: UUID
-    var CreatedDate: Date
+    var CreatedDate: Date?
     var ChatParty1UserID: UUID
     var ChatParty2UserID: UUID
 }

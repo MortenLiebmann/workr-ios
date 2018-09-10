@@ -9,11 +9,11 @@
 import Foundation
 
 struct Message: Codable {
-    var ID: UUID
+    var ID: UUID?
     var ChatID: UUID
     var SentByUserID: UUID
-    var CreatedDate: Date
+    var CreatedDate: Date?
     var UpdatedDate: Date?
     var Text: String
-    var Flags: Int
+    var Flags: Int?
 }

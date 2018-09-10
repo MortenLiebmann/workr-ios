@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 struct chatModel {
     var message: String
@@ -18,47 +19,46 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    
     @IBAction func sendDidTap(_ sender: Any) {
-        self.tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user1, CreatedDate: Date(), UpdatedDate: nil, Text: self.messageTextView.text, Flags: 0))
-        let newRow = IndexPath(row: self.tableArray2.count - 1, section: 0)
+        createMessage()
         
-        self.tableView.beginUpdates()
-        tableView.insertRows(at: [newRow], with: UITableViewRowAnimation.bottom)
-        self.tableView.endUpdates()
-        
-        tableView.scrollToRow(at: newRow, at: .bottom, animated: true)
-        clearPlaceholder()
-        updateTextViewHeight()
     }
     
     @IBAction func closeDidTap(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    var user1: UUID = UUID()
-    var user2: UUID = UUID()
-    
-    var tableArray2: [Message] = []
-    var tableArray: [chatModel] = [chatModel(message: "This is a message\non multiple lines", outgoing: true), chatModel(message: "I forgot to say something", outgoing: true), chatModel(message: "Want to eat lunch?", outgoing: true), chatModel(message: "Yes, that sounds lovely.\n\n\nMeet me at starbucks at 9 PM", outgoing: false)]
-
+    var user1: User!
+    var user2: User!
+    var chat: Chat!
+    var timer: Timer!
+    var postId: UUID!
+    var keyboardListener: KeyboardEventListener!
+    var messages: [Message] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user1, CreatedDate: Date(), UpdatedDate: nil, Text: "Hello", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user1, CreatedDate: Date(), UpdatedDate: nil, Text: "I would like to make an offer on this assignment", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user1, CreatedDate: Date(), UpdatedDate: nil, Text: "What is your expected rate for this type of work?", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user1, CreatedDate: Date(), UpdatedDate: nil, Text: "Best regards\n\nJohnny Reimar", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user2, CreatedDate: Date(), UpdatedDate: nil, Text: "Hi,\nThanks for reaching out.", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user2, CreatedDate: Date(), UpdatedDate: nil, Text: "I expect around 200 USD", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user1, CreatedDate: Date(), UpdatedDate: nil, Text: "I can do it for 250", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user2, CreatedDate: Date(), UpdatedDate: nil, Text: "What about 220", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user1, CreatedDate: Date(), UpdatedDate: nil, Text: "That is a deal\nWould you be so kind and then accept my offer?", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user2, CreatedDate: Date(), UpdatedDate: nil, Text: "Sure thing, done!", Flags: 0))
-        tableArray2.append(Message(ID: UUID(), ChatID: UUID(), SentByUserID: user2, CreatedDate: Date(), UpdatedDate: nil, Text: "User 2 has accepted User 3's offer", Flags: 2))
+        timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { (_) in
+            self.loadData()
+        })
+        
+        keyboardListener = KeyboardEventListener()
+        keyboardListener.delegate = self
+        
+        loadData()
         
         messageTextView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
         messageTextView.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
         messageTextView.delegate = self
+        
+        profileImageView.downloadUserImage(from: user2.ID)
+        nameLabel.text = user2.Name
+        
         setPlaceholder()
         
         tableView.dataSource = self
@@ -67,34 +67,126 @@ class ChatViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    func loadData() {
+        guard let user1 = user1, let user2 = user2, let postId = postId else { return }
+        
+        if let chat = chat {
+            self.appData.getMessages(chatId: chat.ID!).done({ (messages) in
+                if self.messages.count != messages.count {
+                    self.messages = messages
+                    self.tableView.reloadData()
+                }
+            })
+        } else {
+            firstly {
+                appData.getChat(by: [
+                    "PostID" : postId.uuidString.lowercased(),
+                    "ChatParty1UserID": user1.ID.uuidString.lowercased(),
+                    "ChatParty2UserID": user2.ID.uuidString.lowercased()
+                    ])
+                }.done { (chats) in
+                    if chats.count > 0 {
+                        self.chat = chats.first
+                    }
+                    
+                    guard let chat = self.chat else { return }
+                    
+                    self.appData.getMessages(chatId: chat.ID!).done({ (messages) in
+                        self.messages = messages
+                        self.tableView.reloadData()
+                    })
+            }
+        }
+       
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func createMessage() {
+        if let chat = chat {
+            insertMessage(chat: chat)
+        } else {
+            createChat().done { (chat) in
+                self.insertMessage(chat: chat)
+            }
+        }
+    }
+    
+    func insertMessage(chat: Chat) {
+        guard let text = self.messageTextView.text, !text.isEmptyOrWhitespace() else { return }
+        let parameters = Message(ID: nil, ChatID: chat.ID!, SentByUserID: appData.currentUser.ID, CreatedDate: nil, UpdatedDate: nil, Text: text, Flags: nil).dictionary
+        appData.insertMessage(message: parameters).done { (message) in
+            self.messages.append(message)
+            
+            let index = IndexPath(row: self.messages.count - 1, section: 0)
+            self.tableView.beginUpdates()
+            
+            self.tableView.insertRows(at: [index], with: .automatic)
+            
+            self.tableView.endUpdates()
+            
+            self.tableView.scrollToRow(at: index, at: .bottom, animated: true)
+            
+            self.clearPlaceholder()
+            self.updateTextViewHeight()
+        }
+    }
+    
+    func createChat() -> Promise<Chat> {
+        let parameters = Chat(ID: nil, PostID: postId, CreatedDate: nil, ChatParty1UserID: user1.ID, ChatParty2UserID: user2.ID).dictionary
+        return appData.insertChat(chat: parameters)
+    }
+}
+
+extension ChatViewController: KeyboardEventDelegate {
+    func keyboardDidHide(duration: TimeInterval, animationCurve: UIViewAnimationOptions) {
+        bottomConstraint.constant = 0.0
+        
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutSubviews()
+        }
+    }
+    
+    func keyboardDidShow(height: CGFloat, frame: CGRect, duration: TimeInterval, animationCurve: UIViewAnimationOptions) {
+        var tabBarHeight: CGFloat = 0.0
+        
+        if let tabbar = self.tabBarController?.tabBar {
+            tabBarHeight = tabbar.frame.height
+        }
+        
+        self.bottomConstraint?.constant = height - tabBarHeight
+        UIView.animate(withDuration: duration) {
+            self.view.layoutSubviews()
+        }
+    }
 }
 
 extension ChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let data = tableArray2[indexPath.row]
+        let data = messages[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath) as! ChatTableViewCell
         
         cell.messageLabel.text = data.Text
         cell.currentMessage = data
         
         if indexPath.row - 1 >= 0 {
-            cell.previousMessage = tableArray2[indexPath.row - 1]
+            cell.previousMessage = messages[indexPath.row - 1]
         }
-        if indexPath.row + 1 < tableArray2.count {
-            cell.nextMessage = tableArray2[indexPath.row + 1]
+        if indexPath.row + 1 < messages.count {
+            cell.nextMessage = messages[indexPath.row + 1]
         }
-        cell.primaryUser = user1
+        cell.primaryUser = appData.currentUser.ID
+        
         cell.renderCell()
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableArray2.count
+        return messages.count
     }
 }
 

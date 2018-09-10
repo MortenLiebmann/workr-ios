@@ -24,6 +24,7 @@ class PlaceBidViewController: UIViewController {
     var post: Post!
     var price: Double!
     var formatter: NumberFormatter = NumberFormatter()
+    
     lazy var currencyFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         
@@ -35,18 +36,43 @@ class PlaceBidViewController: UIViewController {
         
         return formatter
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
+    }
+    
+    @objc func keyboardWillAppear() {
+        self.isEditing = true
+    }
+    
+    @objc func keyboardWillDisappear() {
+        self.isEditing = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        self.view.addGestureRecognizer(tap)
 
         priceTextField.delegate = self
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        if self.isEditing {
+            self.view.endEditing(true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 

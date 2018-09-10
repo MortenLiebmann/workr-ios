@@ -14,6 +14,7 @@ class PostViewController: UIViewController {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var bidsButton: UIButton!
     @IBOutlet weak var bidStackView: UIStackView!
+    @IBOutlet weak var completeButton: UIButton!
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tagCollectionView: UICollectionView!
@@ -26,6 +27,7 @@ class PostViewController: UIViewController {
         
     }
     
+    var chat: Chat?
     var post: Post?
     var images: Int = 10
     var tags = ["Tag1", "Looooooooooooong tag", "Tag 3", "Another long tag", "Even loooooooooooooooooonger tag"]
@@ -46,9 +48,10 @@ class PostViewController: UIViewController {
         collectionView.isHidden = post.PostImageIDs.count == 0
         
         editButton.isHidden = post.CreatedByUser?.ID != appData.currentUser.ID
-        contactButton.isHidden = post.CreatedByUser?.ID == appData.currentUser.ID
+        contactButton.isHidden = true
         offerButton.isHidden = post.CreatedByUser?.ID == appData.currentUser.ID //OR if post has any offer from you
         bidStackView.isHidden = post.PostBids.count == 0
+        completeButton.isHidden = (post.PostBids.first { $0.Flags == 4}) != nil && post.CreatedByUser?.ID != appData.currentUser.ID
         
         bidsButton.setTitle("\(post.PostBids.count) bids", for: .normal)
         
@@ -64,6 +67,22 @@ class PostViewController: UIViewController {
         descriptionLabel.text = post.Description
         addressLabel.isHidden = (post.Address?.isEmptyOrWhitespace())!
         addressLabel.text = post.Address
+        
+        loadData()
+    }
+    
+    func loadData() {
+        guard let post = post else {return}
+        appData.getChat(by: [
+            "PostID" : post.ID.uuidString.lowercased(),
+            "ChatParty1UserID": post.CreatedByUserID.uuidString.lowercased(),
+            "ChatParty2UserID": appData.currentUser.ID.uuidString.lowercased()
+            ]).done { (chats) in
+                if chats.count > 0 {
+                    self.chat = chats.first
+                    self.contactButton.isHidden = false
+                }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -78,7 +97,18 @@ class PostViewController: UIViewController {
         }
         if segue.identifier == "ViewBids" {
             guard let vc = segue.destination as? BidsViewController else { return }
-            vc.bids = (self.post?.PostBids)!
+            vc.post = post
+        }
+        if segue.identifier == "ShowChat" {
+            guard let nav = segue.destination as? UINavigationController, let vc = nav.childViewControllers[0] as? ChatViewController else { return }
+            vc.user2 = appData.currentUser
+            vc.user1 = post?.CreatedByUser
+            vc.postId = post?.ID
+        }
+        if segue.identifier == "Ratings" {
+            guard let vc = segue.destination as? RatingsViewController else { return }
+            vc.bid = post?.PostBids.first {$0.Flags == 4}
+            vc.post = post
         }
     }
 }

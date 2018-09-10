@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 extension UIViewController {
     var appData:AppData {
@@ -18,6 +19,32 @@ extension UIViewController {
 extension Double {
     func toString() -> String {
         return String(self)
+    }
+    
+    func rounded(toPlaces places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
+}
+
+extension DataRequest {
+    private func decodableResponseSerializer<T: Decodable>(decoder: JSONDecoder?) -> DataResponseSerializer<T> {
+        return DataResponseSerializer { _, response, data, error in
+            guard error == nil else { return .failure(error!) }
+            
+            guard let data = data else {
+                return .failure(AFError.responseSerializationFailed(reason: .inputDataNil))
+            }
+            
+            let jsonDecoder = decoder ?? JSONDecoder()
+            
+            return Result { try jsonDecoder.decode(T.self, from: data)}
+        }
+    }
+    
+    @discardableResult
+    func responseDecodable<T: Decodable>(decoder: JSONDecoder? = nil, queue: DispatchQueue? = nil, completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
+        return response(queue: queue, responseSerializer: decodableResponseSerializer(decoder: decoder), completionHandler: completionHandler)
     }
 }
 
@@ -82,7 +109,16 @@ extension UIView {
 
 extension Encodable {
     var dictionary: [String: Any] {
-        return (try? JSONSerialization.jsonObject(with: JSONEncoder().encode(self))) as? [String: Any] ?? [:]
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        
+        do {
+            let json = try JSONSerialization.jsonObject(with: encoder.encode(self))
+            return json as? [String : Any] ?? [:]
+        } catch {
+            print(error)
+            return [:]
+        }
     }
 }
 
@@ -91,8 +127,14 @@ extension UIImageView {
         return (UIApplication.shared.delegate as! AppDelegate).appData
     }
     
+    func downloadUserImage(from userId: UUID) {
+        self.downloadImage(url: "userimages/\(userId.uuidString.lowercased())", id: userId) { (id, success) in
+            print(success)
+        }
+    }
+    
     func downloadImage(from postId: UUID, imageId: UUID) {
-        self.downloadImage(url: "postimages/\(postId)/\(imageId)", id: imageId) { (id, success) in
+        self.downloadImage(url: "postimages/\(postId.uuidString.lowercased())/\(imageId.uuidString.lowercased())", id: imageId) { (id, success) in
             print(success)
         }
     }

@@ -271,8 +271,11 @@
                     </navigationItem>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="bottomConstraint" destination="NAn-Af-rVN" id="1jJ-wl-gPr"/>
                         <outlet property="messageTextView" destination="5cf-tt-dbI" id="w3A-qm-oMw"/>
                         <outlet property="messageTextViewHeightConstraint" destination="yNb-MC-Gku" id="2mT-h8-bqW"/>
+                        <outlet property="nameLabel" destination="Kuf-Bo-oaU" id="68T-cy-olm"/>
+                        <outlet property="profileImageView" destination="Jsf-Tf-kbM" id="ySf-m7-ELH"/>
                         <outlet property="tableView" destination="q5f-hU-Wh1" id="wFD-9J-fJh"/>
                     </connections>
                 </viewController>

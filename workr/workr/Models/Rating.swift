@@ -8,12 +8,13 @@
 
 import Foundation
 
-struct Rating {
-    var ID: UUID
-    var UserID: UUID
-    var RatedByUserID: UUID
-    var PostID: UUID
-    var CreatedDate: Date
-    var Score: Int
-    var Text: String
+struct Rating: Codable {
+    var ID: UUID?
+    var UserID: UUID?
+    var RatedByUserID: UUID?
+    var RatedByUser: User?
+    var PostID: UUID?
+    var CreatedDate: Date?
+    var Score: Int?
+    var Text: String?
 }

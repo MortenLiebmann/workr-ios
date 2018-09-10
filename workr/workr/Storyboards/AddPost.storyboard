@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="l1v-jf-OnS">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="l1v-jf-OnS">
                                 <rect key="frame" x="20" y="40" width="335" height="607"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ERB-M7-wZa" customClass="BorderTextField" customModule="workr" customModuleProvider="target">
@@ -42,7 +42,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter description" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gnY-b7-Nul">
-                                        <rect key="frame" x="0.0" y="60" width="335" height="60"/>
+                                        <rect key="frame" x="0.0" y="50" width="335" height="60"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="fLQ-hz-QCh"/>
@@ -63,7 +63,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CeM-U9-Ixg" customClass="WSTagsField" customModule="WSTagsField">
-                                        <rect key="frame" x="0.0" y="140" width="335" height="94"/>
+                                        <rect key="frame" x="0.0" y="120" width="335" height="144"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -77,7 +77,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </scrollView>
                                     <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IH9-SW-Rjy">
-                                        <rect key="frame" x="0.0" y="254" width="335" height="44"/>
+                                        <rect key="frame" x="0.0" y="274" width="335" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="pbr-dY-PaH"/>
                                         </constraints>
@@ -96,8 +96,8 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </textField>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YbJ-qy-CR5">
-                                        <rect key="frame" x="0.0" y="318" width="335" height="225"/>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YbJ-qy-CR5" customClass="ImagePickerController" customModule="workr" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="328" width="335" height="225"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4EH-Js-OeI">
                                             <size key="itemSize" width="50" height="50"/>
@@ -219,8 +219,8 @@
                         <viewLayoutGuide key="safeArea" id="9ed-vt-0xd"/>
                     </view>
                     <connections>
-                        <outlet property="collectionView" destination="YbJ-qy-CR5" id="vfl-ou-SIq"/>
                         <outlet property="descriptionTextView" destination="gnY-b7-Nul" id="ENn-Wg-PmR"/>
+                        <outlet property="imageCollectionView" destination="YbJ-qy-CR5" id="yI0-h6-cfM"/>
                         <outlet property="locationTextField" destination="IH9-SW-Rjy" id="V0C-Hv-2K4"/>
                         <outlet property="tagTextField" destination="CeM-U9-Ixg" id="Qca-0u-qfM"/>
                         <outlet property="titleTextField" destination="ERB-M7-wZa" id="cjW-lh-eOr"/>
