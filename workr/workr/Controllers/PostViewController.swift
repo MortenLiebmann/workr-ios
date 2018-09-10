@@ -190,4 +190,3 @@ extension PostViewController: UICollectionViewDelegateFlowLayout {
         self.collectionView.scrollToItem(at:indexPath, at: UICollectionViewScrollPosition.left, animated: true)
     }
 }
-

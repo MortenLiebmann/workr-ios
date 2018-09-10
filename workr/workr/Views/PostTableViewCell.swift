@@ -31,6 +31,9 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var noImagesView: UIView!
     @IBOutlet weak var numberOfImages: UILabel!
     
+    @IBOutlet weak var tagsView: UIView!
+    @IBOutlet weak var tagsCollectionView: UICollectionView!
+    
     var post: Post!
     
     override func awakeFromNib() {
@@ -38,8 +41,15 @@ class PostTableViewCell: UITableViewCell {
     }
     
     func initialize() {
+        guard let post = post else { return }
         locationLabel.text = post.Address
         titleLabel.text = post.Title
+        tagsCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: "TagCell")
+        
+        tagsCollectionView.delegate = self
+        tagsCollectionView.dataSource = self
+        tagsView.isHidden = post.PostTags.count == 0
+        tagsCollectionView.reloadData()
         
         locationView.isHidden = (post.Address?.isEmptyOrWhitespace())!
         
@@ -65,5 +75,35 @@ class PostTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+}
+
+extension PostTableViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let post = post else { return CGSize(width: 0, height: 0) }
+        let tag = post.PostTags[indexPath.row].Name
+        let height = collectionView.frame.size.height
+        var width = (tag?.width(withConstraintedHeight: height, font: UIFont.systemFont(ofSize: 12)))! + 16
+        return CGSize(width: width, height: height)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+}
+
+extension PostTableViewCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return post.PostTags.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCell", for: indexPath) as! TagCollectionViewCell
+        
+        guard let post = post else { return cell }
+        cell.tagLabel.text = post.PostTags[indexPath.row].Name
+        
+        return cell
     }
 }

@@ -8,6 +8,11 @@
 
 import Foundation
 
+protocol Matchable {
+    associatedtype T
+    func match(_ input: T) -> Bool
+}
+
 protocol AppDataError: LocalizedError {
     var title: String? { get }
     var code: Int { get }

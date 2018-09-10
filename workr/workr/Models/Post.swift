@@ -22,3 +22,19 @@ struct Post: Codable {
     var PostImageIDs: [UUID]
     var CreatedByUser: User?
 }
+
+extension Post: Matchable {
+    typealias T = String?
+    
+    func match(_ input: String?) -> Bool {
+        guard let text = input, !text.isEmptyOrWhitespace() else { return true }
+        
+        if self.Title.lowercased().contains(text.lowercased())
+            || (self.PostTags.first { $0.Name!.lowercased().contains(text.lowercased())} ) != nil
+            || CreatedByUser!.Name.lowercased().contains(text.lowercased()) {
+            return true
+        }
+        
+        return false
+    }
+}

@@ -10,8 +10,10 @@ import UIKit
 
 class PostTableViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var posts: [Post] = []
+    var tempPosts: [Post] = []
     var currentUser: User!
     
     @IBAction func unwindToMain(_ segue: UIStoryboardSegue) {
@@ -38,6 +40,8 @@ class PostTableViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.addSubview(refreshControl)
+        
+        searchBar.delegate = self
        
         loadData()
        
@@ -46,6 +50,7 @@ class PostTableViewController: UIViewController {
     func loadData() {
         appData.getPosts().done { (data) in
             self.posts = data.sorted{$0.CreatedDate > $1.CreatedDate}
+            self.tempPosts = data.sorted{$0.CreatedDate > $1.CreatedDate}
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()
             }.catch { (error) in
@@ -100,5 +105,36 @@ extension PostTableViewController: UITableViewDataSource {
         cell.initialize()
         
         return cell
+    }
+}
+
+extension PostTableViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        view.endEditing(true)
+        searchBar.showsCancelButton = false
+        tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        view.endEditing(true)
+        searchBar.showsCancelButton = false
+        posts = tempPosts
+        tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        view.endEditing(true)
+        tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        posts = tempPosts.filter { $0.match(searchBar.text)}
+        tableView.reloadData()
     }
 }

@@ -55,7 +55,7 @@ open class AppData: NSObject {
         if testing {
             baseUrl = testUrl
         }
-        baseUrl = mobileUrl
+//        baseUrl = mobileUrl
     }
     
     var decoder: JSONDecoder {
