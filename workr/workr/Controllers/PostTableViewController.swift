@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class PostTableViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -37,6 +38,12 @@ class PostTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.leftBarButtonItem = setBarButton(for: #imageLiteral(resourceName: "Avatar"))
+        
+        appData.getImageFrom("userimages/\(appData.currentUser.ID.uuidString.lowercased())").done { (image) in
+            self.navigationItem.leftBarButtonItem = self.setBarButton(for: image)
+        }
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.addSubview(refreshControl)
@@ -47,21 +54,34 @@ class PostTableViewController: UIViewController {
        
     }
     
-    func loadData() {
-        appData.getPosts().done { (data) in
-            self.posts = data.sorted{$0.CreatedDate > $1.CreatedDate}
-            self.tempPosts = data.sorted{$0.CreatedDate > $1.CreatedDate}
-            self.tableView.reloadData()
-            self.refreshControl.endRefreshing()
-            }.catch { (error) in
-                print(error)
-        }
+    func setBarButton(for image: UIImage) -> UIBarButtonItem {
+        let button = UIButton(type: .custom)
         
-        appData.getCurrentUser().done { (user) in
-            self.currentUser = user
-        }
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(self.profileTapped(_:)), for: .touchUpInside)
+        button.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        button.imageView?.contentMode = .scaleAspectFill
+        
+        button.imageView?.snp.makeConstraints({ (make) in
+            
+            make.width.height.equalTo(30)
+            make.left.equalTo(button)
+            make.centerY.equalTo(button)
+        })
+        button.imageView?.cornerRadius = 15
+        button.snp.makeConstraints({ (make) in
+            make.width.height.equalTo(30)
+        })
+        button.cornerRadius = 15
+        button.translatesAutoresizingMaskIntoConstraints = false
+        let barButton = UIBarButtonItem(customView: button)
+        return barButton
     }
-
+    
+    @objc func profileTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "ShowProfile", sender: self)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -86,6 +106,23 @@ class PostTableViewController: UIViewController {
     func getData(from indexPath: IndexPath?) -> Post? {
         guard let indexPath = indexPath else { return nil }
         return posts[indexPath.row]
+    }
+}
+
+extension PostTableViewController: Loadable {
+    func loadData() {
+        appData.getPosts().done { (data) in
+            self.posts = data.sorted{$0.CreatedDate > $1.CreatedDate}
+            self.tempPosts = data.sorted{$0.CreatedDate > $1.CreatedDate}
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+            }.catch { (error) in
+                print(error)
+        }
+        
+        appData.getCurrentUser().done { (user) in
+            self.currentUser = user
+        }
     }
 }
 

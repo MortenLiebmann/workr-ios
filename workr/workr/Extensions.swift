@@ -10,12 +10,6 @@ import Foundation
 import UIKit
 import Alamofire
 
-extension UIViewController {
-    var appData:AppData {
-        return (UIApplication.shared.delegate as! AppDelegate).appData
-    }
-}
-
 extension Double {
     func toString() -> String {
         return String(self)
@@ -158,14 +152,6 @@ extension UIImageView {
         }
     }
 }
-
-//extension Formatter {
-//    static let iso8601: ISO8601DateFormatter = {
-//        let formatter = ISO8601DateFormatter()
-//        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-//        return formatter
-//    }()
-//}
 
 extension Date {
     func toString(dateStyle: DateFormatter.Style? = .long, timeStyle: DateFormatter.Style? = .short) -> String {

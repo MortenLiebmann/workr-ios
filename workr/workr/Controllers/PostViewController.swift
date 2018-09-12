@@ -51,9 +51,9 @@ class PostViewController: UIViewController {
         contactButton.isHidden = true
         offerButton.isHidden = post.CreatedByUser?.ID == appData.currentUser.ID //OR if post has any offer from you
         bidStackView.isHidden = post.PostBids.count == 0
-        completeButton.isHidden = (post.PostBids.first { $0.Flags == 4}) != nil && post.CreatedByUser?.ID != appData.currentUser.ID
+        completeButton.isHidden = (post.PostBids.first { $0.Flags == 4}) == nil || post.CreatedByUser?.ID != appData.currentUser.ID
         
-        bidsButton.setTitle("\(post.PostBids.count) bids", for: .normal)
+        bidsButton.setTitle("\(post.PostBids.count) bid(s)", for: .normal)
         
         tagCollectionView.delegate = self
         tagCollectionView.dataSource = self
@@ -71,20 +71,6 @@ class PostViewController: UIViewController {
         loadData()
     }
     
-    func loadData() {
-        guard let post = post else {return}
-        appData.getChat(by: [
-            "PostID" : post.ID.uuidString.lowercased(),
-            "ChatParty1UserID": post.CreatedByUserID.uuidString.lowercased(),
-            "ChatParty2UserID": appData.currentUser.ID.uuidString.lowercased()
-            ]).done { (chats) in
-                if chats.count > 0 {
-                    self.chat = chats.first
-                    self.contactButton.isHidden = false
-                }
-        }
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -100,15 +86,31 @@ class PostViewController: UIViewController {
             vc.post = post
         }
         if segue.identifier == "ShowChat" {
-            guard let nav = segue.destination as? UINavigationController, let vc = nav.childViewControllers[0] as? ChatViewController else { return }
-            vc.user2 = appData.currentUser
-            vc.user1 = post?.CreatedByUser
-            vc.postId = post?.ID
+            guard let nav = segue.destination as? UINavigationController, let vc = nav.childViewControllers[0] as? ChatViewController, let post = post else { return }
+            vc.user1 = appData.currentUser
+            vc.user2 = post.CreatedByUser
+            vc.postId = post.ID
         }
         if segue.identifier == "Ratings" {
             guard let vc = segue.destination as? RatingsViewController else { return }
             vc.bid = post?.PostBids.first {$0.Flags == 4}
             vc.post = post
+        }
+    }
+}
+
+extension PostViewController: Loadable {
+    func loadData() {
+        guard let post = post else {return}
+        appData.getChat(by: [
+            "PostID" : post.ID.uuidString.lowercased(),
+            "ChatParty2UserID": post.CreatedByUserID.uuidString.lowercased(),
+            "ChatParty1UserID": appData.currentUser.ID.uuidString.lowercased()
+            ]).done { (chats) in
+                if chats.count > 0 {
+                    self.chat = chats.first
+                    self.contactButton.isHidden = false
+                }
         }
     }
 }

@@ -26,7 +26,6 @@ class ChatViewController: UIViewController {
     
     @IBAction func sendDidTap(_ sender: Any) {
         createMessage()
-        
     }
     
     @IBAction func closeDidTap(_ sender: Any) {
@@ -42,15 +41,10 @@ class ChatViewController: UIViewController {
     var messages: [Message] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { (_) in
-            self.loadData()
-        })
-        
+     
         keyboardListener = KeyboardEventListener()
         keyboardListener.delegate = self
-        
-        loadData()
+        getChat()
         
         messageTextView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
         messageTextView.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
@@ -64,46 +58,31 @@ class ChatViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.reloadData()
-
-        // Do any additional setup after loading the view.
     }
     
-    func loadData() {
-        guard let user1 = user1, let user2 = user2, let postId = postId else { return }
-        
-        if let chat = chat {
-            self.appData.getMessages(chatId: chat.ID!).done({ (messages) in
-                if self.messages.count != messages.count {
-                    self.messages = messages
-                    self.tableView.reloadData()
+    func getChat() {
+        firstly {
+            appData.getChat(by: [
+                "PostID" : postId.uuidString.lowercased(),
+                "ChatParty1UserID": user1.ID.uuidString.lowercased(),
+                "ChatParty2UserID": user2.ID.uuidString.lowercased()
+                ])
+            }.done { (chats) in
+                if chats.count > 0 {
+                    self.chat = chats.first
                 }
-            })
-        } else {
-            firstly {
-                appData.getChat(by: [
-                    "PostID" : postId.uuidString.lowercased(),
-                    "ChatParty1UserID": user1.ID.uuidString.lowercased(),
-                    "ChatParty2UserID": user2.ID.uuidString.lowercased()
-                    ])
-                }.done { (chats) in
-                    if chats.count > 0 {
-                        self.chat = chats.first
-                    }
-                    
-                    guard let chat = self.chat else { return }
-                    
-                    self.appData.getMessages(chatId: chat.ID!).done({ (messages) in
-                        self.messages = messages
-                        self.tableView.reloadData()
-                    })
-            }
+                
+                guard let chat = self.chat else { return }
+                
+                self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { (_) in
+                    self.loadData()
+                })
+                self.loadData()
         }
-       
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func createMessage() {
@@ -139,6 +118,21 @@ class ChatViewController: UIViewController {
     func createChat() -> Promise<Chat> {
         let parameters = Chat(ID: nil, PostID: postId, CreatedDate: nil, ChatParty1UserID: user1.ID, ChatParty2UserID: user2.ID).dictionary
         return appData.insertChat(chat: parameters)
+    }
+}
+
+extension ChatViewController: Loadable {
+    func loadData() {
+        guard let user1 = user1, let user2 = user2, let postId = postId else { return }
+        
+        if let chat = chat {
+            self.appData.getMessages(chatId: chat.ID!).done({ (messages) in
+                if self.messages.count != messages.count {
+                    self.messages = messages
+                    self.tableView.reloadData()
+                }
+            })
+        }
     }
 }
 
@@ -179,7 +173,7 @@ extension ChatViewController: UITableViewDataSource {
         if indexPath.row + 1 < messages.count {
             cell.nextMessage = messages[indexPath.row + 1]
         }
-        cell.primaryUser = appData.currentUser.ID
+        cell.primaryUser = user2.ID
         
         cell.renderCell()
         return cell

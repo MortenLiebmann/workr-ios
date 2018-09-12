@@ -9,6 +9,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="LobsterTwo-BoldItalic.ttf">
+            <string>LobsterTwo-BoldItalic</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Login View Controller-->
         <scene sceneID="rTv-we-Sbt">
@@ -312,6 +317,36 @@
                 <exit id="2C3-Uf-E9u" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="898" y="-26"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="8mq-uU-b8e">
+            <objects>
+                <viewController id="iME-JH-hIM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aPt-dQ-wrT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WORKR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DVs-PM-4fc">
+                                <rect key="frame" x="20" y="294" width="335" height="100"/>
+                                <fontDescription key="fontDescription" name="LobsterTwo-BoldItalic" family="Lobster Two" pointSize="80"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="DVs-PM-4fc" firstAttribute="centerX" secondItem="gvC-9c-61n" secondAttribute="centerX" id="LBR-dE-jon"/>
+                            <constraint firstItem="DVs-PM-4fc" firstAttribute="leading" secondItem="gvC-9c-61n" secondAttribute="leading" constant="20" id="Lvz-9X-Mt9"/>
+                            <constraint firstItem="DVs-PM-4fc" firstAttribute="centerX" secondItem="gvC-9c-61n" secondAttribute="centerX" id="Z4s-db-UhB"/>
+                            <constraint firstItem="gvC-9c-61n" firstAttribute="trailing" secondItem="DVs-PM-4fc" secondAttribute="trailing" constant="20" id="f0d-rl-AJ6"/>
+                            <constraint firstItem="DVs-PM-4fc" firstAttribute="centerY" secondItem="gvC-9c-61n" secondAttribute="centerY" id="sR7-xz-v1a"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gvC-9c-61n"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Udu-Eu-84h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="630"/>
         </scene>
     </scenes>
 </document>

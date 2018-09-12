@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, AppDataDelegate {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     

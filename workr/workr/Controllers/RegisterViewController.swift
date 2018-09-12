@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, AppDataDelegate {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -36,15 +36,10 @@ class RegisterViewController: UIViewController {
             passwordTextField,
             repeatPasswordTextField
         ]
-        
-        
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func colorTextField(textField: UITextField) {
@@ -81,7 +76,9 @@ class RegisterViewController: UIViewController {
         }
         
         firstly {
-            appData.registerUser(name: nameTextField.text!, email: emailTextField.text!, password: passwordTextField.text!)
+            appData.registerUser(name: nameTextField.text!,
+                                 email: emailTextField.text!,
+                                 password: passwordTextField.text!)
             }.done { (user) in
                 self.user = user
                 self.password = self.passwordTextField.text
@@ -91,16 +88,4 @@ class RegisterViewController: UIViewController {
                 print(error)
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

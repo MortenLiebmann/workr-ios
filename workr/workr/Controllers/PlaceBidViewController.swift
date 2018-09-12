@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 class PlaceBidViewController: UIViewController {
     @IBOutlet weak var priceTextField: UITextField!
@@ -14,13 +15,13 @@ class PlaceBidViewController: UIViewController {
     
     @IBAction func offerDidTap(_ sender: Any) {
         appData.insertPostBid(text: self.messageTextView.text, price: price, postId: post.ID).done { (bid) in
-            print(bid)
-            self.dismiss(animated: true, completion: nil)
+            self.createMessage()
             } .catch { (error) in
                 print(error)
         }
     }
     
+    var chat: Chat!
     var post: Post!
     var price: Double!
     var formatter: NumberFormatter = NumberFormatter()
@@ -59,6 +60,8 @@ class PlaceBidViewController: UIViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         self.view.addGestureRecognizer(tap)
+        
+        loadData()
 
         priceTextField.delegate = self
     }
@@ -72,6 +75,46 @@ class PlaceBidViewController: UIViewController {
             self.view.endEditing(true)
         } else {
             self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func createMessage() {
+        if let chat = chat {
+            insertMessage(chat: chat)
+        } else {
+            createChat().done { (chat) in
+                self.insertMessage(chat: chat)
+                }.catch { (error) in
+                    print(error)
+            }
+        }
+    }
+    
+    func insertMessage(chat: Chat) {
+        guard let text = self.messageTextView.text, !text.isEmptyOrWhitespace() else { return }
+        let parameters = Message(ID: nil, ChatID: chat.ID!, SentByUserID: appData.currentUser.ID, CreatedDate: nil, UpdatedDate: nil, Text: text, Flags: 4).dictionary
+        appData.insertMessage(message: parameters).done { (message) in
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func createChat() -> Promise<Chat> {
+        let parameters = Chat(ID: nil, PostID: post.ID, CreatedDate: nil, ChatParty1UserID: appData.currentUser.ID, ChatParty2UserID: post.CreatedByUserID).dictionary
+        return appData.insertChat(chat: parameters)
+    }
+}
+
+extension PlaceBidViewController: Loadable {
+    func loadData() {
+        guard let post = post else { return }
+        appData.getChat(by: [
+            "PostID" : post.ID.uuidString.lowercased(),
+            "ChatParty1UserID": post.CreatedByUserID.uuidString.lowercased(),
+            "ChatParty2UserID": appData.currentUser.ID.uuidString.lowercased()
+            ]).done { (chats) in
+                if chats.count > 0 {
+                    self.chat = chats.first
+                }
         }
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RatingsViewController: UIViewController {
+class RatingsViewController: UIViewController, AppDataDelegate {
     @IBOutlet weak var ratingTextField: UITextField!
     @IBOutlet weak var messageTextView: UITextView!
     
@@ -40,12 +40,40 @@ class RatingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        self.view.addGestureRecognizer(tap)
+        
         ratingTextField.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: Notification.Name.UIKeyboardWillShow, object: nil)
+    }
+    
+    @objc func keyboardWillAppear() {
+        self.isEditing = true
+    }
+    
+    @objc func keyboardWillDisappear() {
+        self.isEditing = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        if self.isEditing {
+            self.view.endEditing(true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     func confirm() {

@@ -34,13 +34,16 @@
 		A6395D8F2126CCCD008A27D2 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D8E2126CCCD008A27D2 /* Tag.swift */; };
 		A6395D912126CD09008A27D2 /* TagReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D902126CD09008A27D2 /* TagReference.swift */; };
 		A6395D93212AAE87008A27D2 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6395D92212AAE87008A27D2 /* PostViewController.swift */; };
+		A65511C721485819004C56E1 /* LobsterTwo-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A65511C321485819004C56E1 /* LobsterTwo-BoldItalic.ttf */; };
+		A65511C821485819004C56E1 /* LobsterTwo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A65511C421485819004C56E1 /* LobsterTwo-Regular.ttf */; };
+		A65511C921485819004C56E1 /* LobsterTwo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A65511C521485819004C56E1 /* LobsterTwo-Bold.ttf */; };
+		A65511CA21485819004C56E1 /* LobsterTwo-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A65511C621485819004C56E1 /* LobsterTwo-Italic.ttf */; };
 		A65B18EC21406FD7008F0AF8 /* KeyboardEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65B18EB21406FD7008F0AF8 /* KeyboardEventListener.swift */; };
 		A68130602144020F005ECFE0 /* RatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A681305F2144020F005ECFE0 /* RatingTableViewCell.swift */; };
 		A68A1894213EA0F70010AED7 /* BidsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68A1893213EA0F70010AED7 /* BidsViewController.swift */; };
 		A68A1896213EA23A0010AED7 /* BidTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68A1895213EA23A0010AED7 /* BidTableViewCell.swift */; };
 		A69A5531212C20F3000C3457 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69A5530212C20F3000C3457 /* TagCollectionViewCell.swift */; };
 		A69A5533212C2528000C3457 /* PostImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69A5532212C2528000C3457 /* PostImageCollectionViewCell.swift */; };
-		A69A5535212EA39A000C3457 /* TestImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69A5534212EA39A000C3457 /* TestImageViewController.swift */; };
 		A69EC9AE2137DC1000C59023 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A69EC9AD2137DC1000C59023 /* Login.storyboard */; };
 		A69EC9B02137E76800C59023 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A69EC9AF2137E76800C59023 /* LoginViewController.swift */; };
 		A6A4DEE6213405BB00BB3AB6 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A4DEE5213405BB00BB3AB6 /* ChatViewController.swift */; };
@@ -101,13 +104,16 @@
 		A6395D8E2126CCCD008A27D2 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		A6395D902126CD09008A27D2 /* TagReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagReference.swift; sourceTree = "<group>"; };
 		A6395D92212AAE87008A27D2 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		A65511C321485819004C56E1 /* LobsterTwo-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LobsterTwo-BoldItalic.ttf"; path = "../../../../../Downloads/Lobster_Two/LobsterTwo-BoldItalic.ttf"; sourceTree = "<group>"; };
+		A65511C421485819004C56E1 /* LobsterTwo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LobsterTwo-Regular.ttf"; path = "../../../../../Downloads/Lobster_Two/LobsterTwo-Regular.ttf"; sourceTree = "<group>"; };
+		A65511C521485819004C56E1 /* LobsterTwo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LobsterTwo-Bold.ttf"; path = "../../../../../Downloads/Lobster_Two/LobsterTwo-Bold.ttf"; sourceTree = "<group>"; };
+		A65511C621485819004C56E1 /* LobsterTwo-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LobsterTwo-Italic.ttf"; path = "../../../../../Downloads/Lobster_Two/LobsterTwo-Italic.ttf"; sourceTree = "<group>"; };
 		A65B18EB21406FD7008F0AF8 /* KeyboardEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardEventListener.swift; sourceTree = "<group>"; };
 		A681305F2144020F005ECFE0 /* RatingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingTableViewCell.swift; sourceTree = "<group>"; };
 		A68A1893213EA0F70010AED7 /* BidsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidsViewController.swift; sourceTree = "<group>"; };
 		A68A1895213EA23A0010AED7 /* BidTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidTableViewCell.swift; sourceTree = "<group>"; };
 		A69A5530212C20F3000C3457 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		A69A5532212C2528000C3457 /* PostImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		A69A5534212EA39A000C3457 /* TestImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestImageViewController.swift; sourceTree = "<group>"; };
 		A69EC9AD2137DC1000C59023 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		A69EC9AF2137E76800C59023 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A6A4DEE5213405BB00BB3AB6 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -180,9 +186,9 @@
 			isa = PBXGroup;
 			children = (
 				A6D1DDE1211C40C100381A4D /* Main.storyboard */,
-				A6D1DDE6211C40C200381A4D /* LaunchScreen.storyboard */,
 				A62001C8212AC8A600B9B6A4 /* AddPost.storyboard */,
 				A62B1EB92133EEFA00FBE81F /* Chat.storyboard */,
+				A6D1DDE6211C40C200381A4D /* LaunchScreen.storyboard */,
 				A69EC9AD2137DC1000C59023 /* Login.storyboard */,
 				A605F3AD2137F707004ACB32 /* Profile.storyboard */,
 			);
@@ -211,7 +217,6 @@
 				A6395D782126A3F9008A27D2 /* PostTableViewController.swift */,
 				A6395D92212AAE87008A27D2 /* PostViewController.swift */,
 				A62001CA212ACBC100B9B6A4 /* AddPostViewController.swift */,
-				A69A5534212EA39A000C3457 /* TestImageViewController.swift */,
 				A6A4DEE5213405BB00BB3AB6 /* ChatViewController.swift */,
 				A69EC9AF2137E76800C59023 /* LoginViewController.swift */,
 				A61A6A8C213813DD00A1AD1F /* RegisterViewController.swift */,
@@ -241,6 +246,17 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		A65511C0214857C7004C56E1 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A65511C521485819004C56E1 /* LobsterTwo-Bold.ttf */,
+				A65511C321485819004C56E1 /* LobsterTwo-BoldItalic.ttf */,
+				A65511C621485819004C56E1 /* LobsterTwo-Italic.ttf */,
+				A65511C421485819004C56E1 /* LobsterTwo-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		A6D1DDD1211C40C100381A4D = {
 			isa = PBXGroup;
 			children = (
@@ -267,6 +283,7 @@
 		A6D1DDDC211C40C100381A4D /* workr */ = {
 			isa = PBXGroup;
 			children = (
+				A65511C0214857C7004C56E1 /* Fonts */,
 				A6395D7721269FAA008A27D2 /* Models */,
 				A62001C7212AC89000B9B6A4 /* Storyboards */,
 				A6395D7521269F85008A27D2 /* Controllers */,
@@ -409,11 +426,15 @@
 			files = (
 				A62B1EBA2133EEFA00FBE81F /* Chat.storyboard in Resources */,
 				A6D1DDE8211C40C200381A4D /* LaunchScreen.storyboard in Resources */,
+				A65511C821485819004C56E1 /* LobsterTwo-Regular.ttf in Resources */,
+				A65511C921485819004C56E1 /* LobsterTwo-Bold.ttf in Resources */,
 				A605F3AE2137F707004ACB32 /* Profile.storyboard in Resources */,
 				A69EC9AE2137DC1000C59023 /* Login.storyboard in Resources */,
 				A6D1DDE5211C40C200381A4D /* Assets.xcassets in Resources */,
 				A62001C9212AC8A600B9B6A4 /* AddPost.storyboard in Resources */,
 				A6395D73212566C3008A27D2 /* Podfile in Resources */,
+				A65511CA21485819004C56E1 /* LobsterTwo-Italic.ttf in Resources */,
+				A65511C721485819004C56E1 /* LobsterTwo-BoldItalic.ttf in Resources */,
 				A6D1DDE3211C40C100381A4D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,7 +534,6 @@
 				A6395D832126B5A5008A27D2 /* User.swift in Sources */,
 				A6395D93212AAE87008A27D2 /* PostViewController.swift in Sources */,
 				A65B18EC21406FD7008F0AF8 /* KeyboardEventListener.swift in Sources */,
-				A69A5535212EA39A000C3457 /* TestImageViewController.swift in Sources */,
 				A61A6A8D213813DD00A1AD1F /* RegisterViewController.swift in Sources */,
 				A6395D892126B5CF008A27D2 /* Message.swift in Sources */,
 				A69A5531212C20F3000C3457 /* TagCollectionViewCell.swift in Sources */,

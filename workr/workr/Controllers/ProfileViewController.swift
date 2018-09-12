@@ -42,6 +42,30 @@ class ProfileViewController: UIViewController {
         render()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowPicker" {
+            guard let vc = segue.destination as? UploadProfileImageViewController else { return }
+            vc.user = user
+        }
+    }
+}
+
+extension ProfileViewController: Renderable {
+    func render() {
+        guard let user = user else { return }
+        
+        logoutButton.isHidden = user.ID != appData.currentUser.ID
+        nameLabel.text = user.Name
+        profileImageView.downloadUserImage(from: user.ID)
+    }
+}
+
+extension ProfileViewController: Loadable {
     func loadData() {
         firstly{
             appData.getRatings(for: user.ID)
@@ -58,26 +82,6 @@ class ProfileViewController: UIViewController {
                 }).reduce(0, {x,y in x + y})) / Double(ratings.count).rounded(toPlaces: 1)
                 
                 self.ratingsLabel.text = String(score)
-        }
-    }
-    
-    func render() {
-        guard let user = user else { return }
-        
-        logoutButton.isHidden = user.ID != appData.currentUser.ID
-        nameLabel.text = user.Name
-        profileImageView.downloadUserImage(from: user.ID)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowPicker" {
-            guard let vc = segue.destination as? UploadProfileImageViewController else { return }
-            vc.user = user
         }
     }
 }

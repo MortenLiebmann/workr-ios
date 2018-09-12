@@ -46,8 +46,7 @@ open class AppData: NSObject {
     private var mobileUrl = "http://10.0.0.37:9877"
     private var currentUserID = "5b6f0164-9798-407d-a38f-e4640bdbd8de"
     var currentUser: User!
-    private var testing = true
-    open let PhotoUrl = "http://ybphoto.s3-website.eu-central-1.amazonaws.com"
+    private var testing = false
     
     override init(){
         super.init()
@@ -68,7 +67,11 @@ open class AppData: NSObject {
     
     public func getImageFrom(_ url: String) -> Promise<UIImage> {
         return Promise<UIImage> { promise in
-            Alamofire.request("\(baseUrl)/\(url)", method: .get, parameters: nil, encoding: URLEncoding.default, headers: ["Content-Type": "image/png"]).responseImage { (response) in
+            Alamofire.request("\(baseUrl)/\(url)",
+                method: .get,
+                parameters: nil,
+                encoding: URLEncoding.default,
+                headers: ["Content-Type": "image/png"]).responseImage { (response) in
                 if let image = response.result.value {
                     promise.fulfill(image)
                 } else {
@@ -121,11 +124,14 @@ extension AppData {
     func getPosts() -> Promise<[Post]> {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        return Alamofire.request("\(baseUrl)/posts", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseDecodable(Array<Post>.self, queue: .main, decoder: decoder)
+        return Alamofire.request("\(baseUrl)/posts",
+            method: .get,
+            parameters: nil,
+            encoding: URLEncoding.default,
+            headers: nil).responseDecodable(Array<Post>.self, queue: .main, decoder: decoder)
     }
     
     func createPost(title: String, description: String, tags: [[String: String]], address: String?) -> Promise<Post> {
-        
         let parameters = [
             "Title": title,
             "Description": description,
@@ -138,17 +144,23 @@ extension AppData {
         decoder.dateDecodingStrategy = .iso8601
         
         return Promise<Post> {seal in
-            Alamofire.request("\(baseUrl)/posts", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(decoder: self.decoder, queue: .main, completionHandler: { (response: DataResponse<Post>) in
-                if let post = response.value {
-                    seal.fulfill(post)
-                } else if let error = response.error {
-                    seal.reject(error)
-                }
-            })
+            Alamofire.request("\(baseUrl)/posts",
+                method: .put,
+                parameters: parameters,
+                encoding: JSONEncoding.default,
+                headers: generateHeader())
+                .responseDecodable(decoder: self.decoder, queue: .main){ (response: DataResponse<Post>) in
+                    if let post = response.value {
+                        seal.fulfill(post)
+                    } else if let error = response.error {
+                        seal.reject(error)
+                    }
+            }
         }
     }
 }
 
+//MARK: - Users
 extension AppData {
     func getCurrentUser() -> Promise<User> {
         return Promise<User> {seal in
@@ -167,7 +179,11 @@ extension AppData {
     }
     
     func getUsers() -> Promise<[User]> {
-        return Alamofire.request("\(baseUrl)/users", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseDecodable(Array<User>.self)
+        return Alamofire.request("\(baseUrl)/users",
+            method: .get,
+            parameters: nil,
+            encoding: URLEncoding.default,
+            headers: nil).responseDecodable(Array<User>.self)
     }
     
     func login() -> Promise<User> {
@@ -202,7 +218,10 @@ extension AppData {
         ]
         return Promise<User> {seal in
             firstly{
-                Alamofire.request("\(baseUrl)/auth", method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers).responseData()
+                Alamofire.request("\(baseUrl)/auth",
+                    method: .get, parameters: nil,
+                    encoding: URLEncoding.default,
+                    headers: headers).responseData()
                 }.get({ (data, response) in
                     if data.count == 0 {
                         seal.reject(CustomError(title: "Error", description: "Incorrect username or password", code: 500))
@@ -236,7 +255,11 @@ extension AppData {
         
         return Promise<User> {seal in
             firstly{
-                Alamofire.request("\(baseUrl)/register", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseData()
+                Alamofire.request("\(baseUrl)/register",
+                    method: .put,
+                    parameters: parameters,
+                    encoding: JSONEncoding.default,
+                    headers: header).responseData()
                 }.get({ (data, response) in
                     let json = try JSON.init(data: data)
                     if response.response?.statusCode == 200 {
@@ -251,34 +274,50 @@ extension AppData {
     }
 }
 
+//MARK: - Tags
 extension AppData {
     func getTags() -> Promise<[Tag]> {
-        return Alamofire.request("\(baseUrl)/posttags", method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseDecodable(Array<Tag>.self, queue: .main, decoder: decoder)
+        return Alamofire.request("\(baseUrl)/posttags",
+            method: .get,
+            parameters: nil,
+            encoding: URLEncoding.default,
+            headers: nil).responseDecodable(Array<Tag>.self, queue: .main, decoder: decoder)
     }
 }
 
+//MARK: - Chats
 extension AppData {
     func insertChat(chat: [String : Any]) -> Promise<Chat> {
         return Promise<Chat> {seal in
-            Alamofire.request("\(baseUrl)/chats", method: .put, parameters: chat, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(decoder: decoder, queue: .main, completionHandler: { (response: DataResponse<Chat>) in
-                if let chat = response.value {
-                    seal.fulfill(chat)
-                } else if let error = response.error {
-                    seal.reject(error)
-                }
-            })
+            Alamofire.request("\(baseUrl)/chats",
+                method: .put,
+                parameters: chat,
+                encoding: JSONEncoding.default,
+                headers: generateHeader())
+                .responseDecodable(decoder: decoder, queue: .main, completionHandler: { (response: DataResponse<Chat>) in
+                    if let chat = response.value {
+                        seal.fulfill(chat)
+                    } else if let error = response.error {
+                        seal.reject(error)
+                    }
+                }) 
         }
     }
     
     func getChat(by parameters: [String: Any]) -> Promise<[Chat]> {
         return Promise<[Chat]> { seal in
-            Alamofire.request("\(baseUrl)/chats", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(decoder: decoder, queue: .main, completionHandler: { (response: DataResponse<[Chat]>) in
-                if let chats = response.value {
-                    seal.fulfill(chats)
-                } else if let error = response.error {
-                    seal.reject(error)
-                }
-            })
+            Alamofire.request("\(baseUrl)/chats",
+                method: .post,
+                parameters: parameters,
+                encoding: JSONEncoding.default,
+                headers: generateHeader())
+                .responseDecodable(decoder: decoder, queue: .main){ (response: DataResponse<[Chat]>) in
+                    if let chats = response.value {
+                        seal.fulfill(chats)
+                    } else if let error = response.error {
+                        seal.reject(error)
+                    }
+            }
         }
     }
     
@@ -287,29 +326,40 @@ extension AppData {
             "ChatID": chatId.uuidString.lowercased()
         ]
         return Promise<[Message]> { seal in
-            Alamofire.request("\(baseUrl)/messages", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(decoder: decoder, queue: .main, completionHandler: { (response: DataResponse<[Message]>) in
-                if let messages = response.value {
-                    seal.fulfill(messages)
-                } else if let error = response.error {
-                    seal.reject(error)
-                }
-            })
+            Alamofire.request("\(baseUrl)/messages",
+                method: .post,
+                parameters: parameters,
+                encoding: JSONEncoding.default,
+                headers: generateHeader())
+                .responseDecodable(decoder: decoder, queue: .main) { (response: DataResponse<[Message]>) in
+                    if let messages = response.value {
+                        seal.fulfill(messages)
+                    } else if let error = response.error {
+                        seal.reject(error)
+                    }
+            }
         }
     }
  
     func insertMessage(message: [String: Any]) -> Promise<Message> {
         return Promise<Message> { seal in
-            Alamofire.request("\(baseUrl)/messages", method: .put, parameters: message, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(decoder: decoder, queue: .main, completionHandler: { (response: DataResponse<Message>) in
-                if let message = response.value {
-                    seal.fulfill(message)
-                } else if let error = response.error {
-                    seal.reject(error)
-                }
-            })
+            Alamofire.request("\(baseUrl)/messages",
+                method: .put,
+                parameters: message,
+                encoding: JSONEncoding.default,
+                headers: generateHeader())
+                .responseDecodable(decoder: decoder, queue: .main){ (response: DataResponse<Message>) in
+                    if let message = response.value {
+                        seal.fulfill(message)
+                    } else if let error = response.error {
+                        seal.reject(error)
+                    }
+            }
         }
     }
 }
 
+//MARK: - Ratings
 extension AppData {
     func getRatings(for userId: UUID) -> Promise<[Rating]> {
         let parameters = [
@@ -321,30 +371,41 @@ extension AppData {
                 return
             }
             
-            Alamofire.request("\(baseUrl)/ratings", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(decoder: decoder, queue: .main, completionHandler: { (response: DataResponse<[Rating]>) in
-                if let ratings = response.value {
-                    self.ratingsCache[userId] = ratings
-                    seal.fulfill(ratings)
-                } else if let error = response.error {
-                    seal.reject(error)
-                }
-            })
+            Alamofire.request("\(baseUrl)/ratings",
+                method: .post,
+                parameters: parameters,
+                encoding: JSONEncoding.default,
+                headers: generateHeader())
+                .responseDecodable(decoder: decoder, queue: .main){ (response: DataResponse<[Rating]>) in
+                    if let ratings = response.value {
+                        self.ratingsCache[userId] = ratings
+                        seal.fulfill(ratings)
+                    } else if let error = response.error {
+                        seal.reject(error)
+                    }
+            }
         }
     }
     
     func insertRating(rating: [String : Any]) -> Promise<Rating> {
         return Promise<Rating> {seal in
-            Alamofire.request("\(baseUrl)/ratings", method: .put, parameters: rating, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(decoder: decoder, queue: .main, completionHandler: { (response: DataResponse<Rating>) in
-                if let rating = response.value {
-                    seal.fulfill(rating)
-                } else if let error = response.error {
-                    seal.reject(error)
-                }
-            })
+            Alamofire.request("\(baseUrl)/ratings",
+                method: .put,
+                parameters: rating,
+                encoding: JSONEncoding.default,
+                headers: generateHeader())
+                .responseDecodable(decoder: decoder, queue: .main){ (response: DataResponse<Rating>) in
+                    if let rating = response.value {
+                        seal.fulfill(rating)
+                    } else if let error = response.error {
+                        seal.reject(error)
+                    }
+            }
         }
     }
 }
 
+//MARK: - Bids
 extension AppData {
     func insertPostBid(text: String, price: Double, postId: UUID) -> Promise<Bid> {
         let parameters = [
@@ -354,45 +415,60 @@ extension AppData {
             "Price": price.toString()
         ]
         
-        return Alamofire.request("\(baseUrl)/postbids", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(Bid.self, queue: .main, decoder: decoder)
+        return Alamofire.request("\(baseUrl)/postbids",
+            method: .put,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: generateHeader())
+            .responseDecodable(Bid.self, queue: .main, decoder: decoder)
     }
     
     func updatePostBid(bidId: UUID, bid: [String: Any]) -> Promise<Bid> {
         return Promise<Bid> {seal in
-            Alamofire.request("\(baseUrl)/postbids/\(bidId.uuidString.lowercased())", method: .patch, parameters: bid, encoding: JSONEncoding.default, headers: generateHeader()).responseDecodable(decoder: decoder, queue: .main, completionHandler: { (response: DataResponse<Bid>) in
-                if let bid = response.value {
-                    seal.fulfill(bid)
-                } else if let error = response.error {
-                    seal.reject(error)
-                }
-            })
+            Alamofire.request("\(baseUrl)/postbids/\(bidId.uuidString.lowercased())",
+                method: .patch,
+                parameters: bid,
+                encoding: JSONEncoding.default,
+                headers: generateHeader())
+                .responseDecodable(decoder: decoder, queue: .main){ (response: DataResponse<Bid>) in
+                    if let bid = response.value {
+                        seal.fulfill(bid)
+                    } else if let error = response.error {
+                        seal.reject(error)
+                    }
+            }
         }
     }
 }
 
+//MARK: - Image upload
 extension AppData {
     func uploadResourceImage(userId: UUID, image: UIImage) -> Promise<UserImage> {
         return Promise<UserImage> { seal in
             if let data = UIImageJPEGRepresentation(image, 0.1) {
                 Alamofire.upload(multipartFormData: { (multipart) in
-                    multipart.append(data, withName: "file", fileName: "tis", mimeType: "image/png")
-                }, usingThreshold: 2500000, to: "\(baseUrl)/userimages/\(userId.uuidString.lowercased())", method: .put, headers: generateHeader(), encodingCompletion: { (result) in
-                    switch result {
-                    case .success(let upload, _, _):
-                        upload.responseJSON { response in
-                            let decoder = JSONDecoder()
-                            
-                            do {
-                                let responseImage = try decoder.decode(UserImage.self, from: response.data!)
-                                seal.fulfill(responseImage)
-                            } catch {
+                    multipart.append(data, withName: "file", mimeType: "image/png")
+                },
+                                 usingThreshold: 2500000,
+                                 to: "\(baseUrl)/userimages/\(userId.uuidString.lowercased())",
+                    method: .put,
+                    headers: generateHeader()){ (result) in
+                        switch result {
+                        case .success(let upload, _, _):
+                            upload.responseJSON { response in
+                                let decoder = JSONDecoder()
                                 
+                                do {
+                                    let responseImage = try decoder.decode(UserImage.self, from: response.data!)
+                                    seal.fulfill(responseImage)
+                                } catch {
+                                    
+                                }
                             }
+                        case .failure(let error):
+                            seal.reject(error)
                         }
-                    case .failure(let error):
-                        seal.reject(error)
-                    }
-                })
+                }
             }
         }
     }
@@ -430,7 +506,6 @@ extension AppData {
                 }
             }
         }
-      
     }
 }
 

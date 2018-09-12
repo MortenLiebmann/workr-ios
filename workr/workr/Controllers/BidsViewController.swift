@@ -9,7 +9,7 @@
 import UIKit
 import PromiseKit
 
-class BidsViewController: UIViewController {
+class BidsViewController: UIViewController, AppDataDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,26 +26,14 @@ class BidsViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowChat" {
-            guard let nav = segue.destination as? UINavigationController, let vc = nav.childViewControllers[0] as? ChatViewController else { return }
-            vc.user1 = appData.currentUser
-            vc.user2 = selectedBid?.CreatedByUser
-            vc.postId = post?.ID
+            guard let nav = segue.destination as? UINavigationController, let vc = nav.childViewControllers[0] as? ChatViewController, let post = post else { return }
+            vc.user2 = appData.currentUser
+            vc.user1 = selectedBid?.CreatedByUser
+            vc.postId = post.ID
         }
         if segue.identifier == "ShowProfile" {
             guard let nav = segue.destination as? UINavigationController, let vc = nav.childViewControllers[0] as? ProfileViewController else { return }

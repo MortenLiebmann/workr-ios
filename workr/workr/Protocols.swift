@@ -7,6 +7,25 @@
 //
 
 import Foundation
+import UIKit
+
+protocol Renderable {
+    func render()
+}
+
+protocol AppDataDelegate {
+     var appData: AppData { get }
+}
+
+extension AppDataDelegate {
+    var appData:AppData {
+        return (UIApplication.shared.delegate as! AppDelegate).appData
+    }
+}
+
+protocol Loadable: AppDataDelegate {
+    func loadData()
+}
 
 protocol Matchable {
     associatedtype T
@@ -38,6 +57,5 @@ extension CurrencyEnabled {
         formatter.allowsFloats = true
         
         return formatter
-        
     }
 }

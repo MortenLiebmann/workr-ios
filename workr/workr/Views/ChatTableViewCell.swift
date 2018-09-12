@@ -17,7 +17,7 @@ extension UIView {
     }
 }
 
-class ChatTableViewCell: UITableViewCell {
+class ChatTableViewCell: UITableViewCell, AppDataDelegate {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var messageView: UIView!
     
@@ -47,7 +47,7 @@ class ChatTableViewCell: UITableViewCell {
         get {
             guard let currentMessage = currentMessage else { return false }
             
-            if currentMessage.SentByUserID == primaryUser {
+            if currentMessage.SentByUserID == appData.currentUser.ID {
                 return true
             } else {
                 return false
@@ -67,8 +67,8 @@ class ChatTableViewCell: UITableViewCell {
         guard let currentMessage = currentMessage else { return }
         messageView.backgroundColor = viewColor
         
-        messageLabel.textColor = outgoing || currentMessage.Flags == 2 ? .white : .darkGray
-        messageLabel.textAlignment = currentMessage.Flags == 2 ? .center : .left
+        messageLabel.textColor = outgoing  ? .white : .darkGray
+        messageLabel.textAlignment = outgoing ? .right : .left
         
         messageView.layer.cornerRadius = 10.0
         updateConstraints()

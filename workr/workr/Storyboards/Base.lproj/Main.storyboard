@@ -6,20 +6,11 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Segues with Peek and Pop" minToolsVersion="7.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Chat-->
-        <scene sceneID="pto-gb-YAb">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Chat" id="07Z-rD-fwq" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nhn-ri-Rk9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1574" y="-1229"/>
-        </scene>
         <!--Profile-->
         <scene sceneID="9vC-Qa-Pmy">
             <objects>
@@ -398,18 +389,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="0bm-JV-bR6">
-                        <leftBarButtonItems>
-                            <barButtonItem title="Item" id="PEJ-i1-aPP">
-                                <connections>
-                                    <segue destination="07Z-rD-fwq" kind="show" id="xbU-u0-RIt"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Item" image="Avatar" width="30" id="JdZ-Ah-07h">
-                                <connections>
-                                    <segue destination="9TA-7M-O1c" kind="show" identifier="ShowProfile" id="n74-bX-fAt"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" image="Avatar" width="30" id="JdZ-Ah-07h">
+                            <connections>
+                                <segue destination="9TA-7M-O1c" kind="show" identifier="ShowProfile" id="n74-bX-fAt"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="DfL-FN-Rtd">
                             <connections>
                                 <segue destination="OKF-hZ-4hS" kind="show" identifier="AddPost" id="xBq-WU-BTK"/>

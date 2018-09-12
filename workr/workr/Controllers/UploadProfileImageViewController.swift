@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UploadProfileImageViewController: UIViewController {
+class UploadProfileImageViewController: UIViewController, AppDataDelegate {
     @IBOutlet weak var imagePickerController: ImagePickerController!
     
     @IBAction func uploadDidTap(_ sender: Any) {

@@ -129,6 +129,13 @@ class AddPostViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+}
+
+extension AddPostViewController: Loadable {
     func loadData() {
         appData.getTags().done { (tags) in
             self.tags = tags
@@ -136,11 +143,6 @@ class AddPostViewController: UIViewController {
             }.catch { (error) in
                 print(error)
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
 
