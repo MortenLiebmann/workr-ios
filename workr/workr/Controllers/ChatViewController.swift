@@ -18,6 +18,7 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bidLabel: UILabel!
     
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -32,6 +33,7 @@ class ChatViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    var bid: Bid!
     var user1: User!
     var user2: User!
     var chat: Chat!
@@ -50,14 +52,26 @@ class ChatViewController: UIViewController {
         messageTextView.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
         messageTextView.delegate = self
         
-        profileImageView.downloadUserImage(from: user2.ID)
-        nameLabel.text = user2.Name
+        guard let viewedUser = user1.ID == appData.currentUser.ID ? user2 : user1 else { return }
+        
+        if let bid = bid {
+            bidLabel.text = "Current bid: \(bid.Value!)"
+        }
+        
+        profileImageView.downloadUserImage(from: viewedUser.ID)
+        nameLabel.text = viewedUser.Name
         
         setPlaceholder()
         
         tableView.dataSource = self
         tableView.delegate = self
         tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if let timer = timer {
+            timer.invalidate()
+        }
     }
     
     func getChat() {

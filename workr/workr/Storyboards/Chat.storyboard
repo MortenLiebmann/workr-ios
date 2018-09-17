@@ -242,17 +242,14 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="p9w-Ou-RRb">
-                                    <rect key="frame" x="0.0" y="0.0" width="105" height="4032"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="aAR-ew-TWz">
-                                            <rect key="frame" x="0.0" y="0.0" width="24" height="4032"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="PJ9-Lu-n3L"/>
                                                 <constraint firstAttribute="width" constant="24" id="aIy-mt-Wmt"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mike hawk" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DN1-0r-xaD">
-                                            <rect key="frame" x="24" y="2005.5" width="81" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -271,6 +268,7 @@
                     </navigationItem>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="bidLabel" destination="IQp-D0-bIh" id="smM-IV-Ntf"/>
                         <outlet property="bottomConstraint" destination="NAn-Af-rVN" id="1jJ-wl-gPr"/>
                         <outlet property="messageTextView" destination="5cf-tt-dbI" id="w3A-qm-oMw"/>
                         <outlet property="messageTextViewHeightConstraint" destination="yNb-MC-Gku" id="2mT-h8-bqW"/>

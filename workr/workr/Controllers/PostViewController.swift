@@ -87,6 +87,7 @@ class PostViewController: UIViewController {
         }
         if segue.identifier == "ShowChat" {
             guard let nav = segue.destination as? UINavigationController, let vc = nav.childViewControllers[0] as? ChatViewController, let post = post else { return }
+            vc.bid = post.PostBids.sorted(by: {$0.Price! > $1.Price!}).first{ $0.CreatedByUserID! == appData.currentUser.ID}
             vc.user1 = appData.currentUser
             vc.user2 = post.CreatedByUser
             vc.postId = post.ID

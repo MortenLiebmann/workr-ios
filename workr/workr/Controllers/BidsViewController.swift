@@ -31,13 +31,15 @@ class BidsViewController: UIViewController, AppDataDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowChat" {
             guard let nav = segue.destination as? UINavigationController, let vc = nav.childViewControllers[0] as? ChatViewController, let post = post else { return }
-            vc.user2 = appData.currentUser
+            vc.user2 = post.CreatedByUser
             vc.user1 = selectedBid?.CreatedByUser
             vc.postId = post.ID
+            vc.bid = post.PostBids.sorted(by: {$0.Price! > $1.Price!}).first{ $0.CreatedByUserID! == selectedBid.CreatedByUser?.ID}
         }
         if segue.identifier == "ShowProfile" {
             guard let nav = segue.destination as? UINavigationController, let vc = nav.childViewControllers[0] as? ProfileViewController else { return }
             vc.user = selectedBid.CreatedByUser
+            
         }
     }
 

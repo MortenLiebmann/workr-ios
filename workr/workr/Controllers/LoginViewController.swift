@@ -25,7 +25,6 @@ class LoginViewController: UIViewController, AppDataDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         firstly {
             appData.login()
             } .done { (user) in
